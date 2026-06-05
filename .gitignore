@@ -38,3 +38,5 @@ yarn-error.log*
 *.pem
 .agents
 post-log.json
+.claude/specs
+docs/superpowers/*

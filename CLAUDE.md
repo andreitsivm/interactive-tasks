@@ -38,3 +38,8 @@ When writing or modifying code that integrates with Paddle:
 - For destructive account changes (updating prices, archiving products, cancelling subscriptions), ask for explicit confirmation before calling the `paddle-sandbox` or `paddle-live` MCP server.
 - Use `paddle-sandbox` by default. Only call `paddle-live` when the prompt explicitly mentions live, production, or real customer data.
 - API keys and webhook secrets live in environment variables — never inline credentials into code.
+
+## Git
+
+- Never commit automatically unless I explicitly ask
+- No need to clutter git history with a working document. Skipping the commit.
