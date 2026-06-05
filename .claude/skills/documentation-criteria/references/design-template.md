@@ -1,0 +1,421 @@
+# [Feature Name] Design Document
+
+## Overview
+
+[Explain the purpose and overview of this feature in 2-3 sentences]
+
+### Referenced UI Spec (when feature includes frontend)
+- UI Spec path: [docs/ui-spec/xxx-ui-spec.md]
+- Component structure and state design are inherited from UI Spec
+
+## Design Summary (Meta)
+
+```yaml
+design_type: "new_feature|extension|refactoring"
+risk_level: "low|medium|high"
+complexity_level: "low|medium|high"
+complexity_rationale: "[Required if medium/high: (1) which requirements/ACs necessitate this complexity, (2) which constraints/risks it addresses]"
+main_constraints:
+  - "[constraint 1]"
+  - "[constraint 2]"
+biggest_risks:
+  - "[risk 1]"
+  - "[risk 2]"
+unknowns:
+  - "[uncertainty 1]"
+  - "[uncertainty 2]"
+```
+
+## Background and Context
+
+### Prerequisite ADRs
+
+- [docs/adr/ADR-XXXX.md]: [Related decision items]
+- Reference common technical ADRs when applicable
+
+### Agreement Checklist
+
+#### Scope
+- [ ] [Features/components to change]
+- [ ] [Features to add]
+
+#### Non-Scope (Explicitly not changing)
+- [ ] [Features/components not to change]
+- [ ] [Existing logic to preserve]
+
+#### Constraints
+- [ ] Parallel operation: [Yes/No]
+- [ ] Backward compatibility: [Required/Not required]
+- [ ] Performance measurement: [Required/Not required]
+
+#### Applicable Standards
+- [Standard/convention] `[explicit]` — Source: [config / rule file / doc path]
+- [Observed pattern] `[implicit]` — Evidence: [file paths] — Confirmed: [Yes/No]
+
+#### Quality Assurance Mechanisms
+How quality is enforced in the change area. Each item is either adopted (will be enforced during implementation) or noted (observed but not adopted, with reason).
+
+- [ ] [Tool/check name] — Enforces: [what] — Config: [path] — Covers: [literal file paths or directory prefixes, or "project-wide"] — Type: `executable_check` — Status: `adopted` / `noted (reason)`
+- [ ] [Domain-specific constraint] — Enforces: [what] — Source: [path] — Covers: [literal file paths or directory prefixes, or "project-wide"] — Type: `passive_constraint` — Status: `adopted` / `noted (reason)`
+
+### Problem to Solve
+
+[Specific problems or challenges this feature aims to address]
+
+### Current Challenges
+
+[Current system issues or limitations]
+
+### Requirements
+
+#### Functional Requirements
+
+- [List mandatory functional requirements]
+
+#### Non-Functional Requirements
+
+- **Performance**: [Response time, throughput requirements]
+- **Scalability**: [Requirements for handling increased load]
+- **Reliability**: [Error rate, availability requirements]
+- **Maintainability**: [Code readability and changeability]
+
+## Acceptance Criteria (AC) - EARS Format
+
+Each AC is written in EARS format. Keywords determine test type.
+
+### [Functional Requirement 1]
+
+- [ ] **When** user clicks login button with valid credentials, the system shall authenticate and redirect to dashboard
+- [ ] **If** credentials are invalid, **then** the system shall display error message "Invalid credentials"
+- [ ] **While** user is logged in, the system shall maintain the session for 60 minutes
+
+### [Functional Requirement 2]
+
+- [ ] The system shall display data list with pagination of 10 items per page
+- [ ] **When** input is entered in search field, the system shall apply real-time filtering
+  - **Property**: `filtered.every(item => item.name.includes(query))`
+
+## Existing Codebase Analysis
+
+### Implementation Path Mapping
+| Type | Path | Description |
+|------|------|-------------|
+| Existing | src/[actual-path] | [Current implementation] |
+| New | src/[planned-path] | [Planned new creation] |
+
+### Integration Points (Include even for new implementations)
+- **Integration Target**: [What to connect with]
+- **Invocation Method**: [How it will be invoked]
+
+### Code Inspection Evidence
+- [path:function] — [relevance: similar functionality / integration point / pattern reference]
+
+### Fact Disposition Table
+
+One row per codebase analysis `focusAreas` entry. This table is the primary binding between structural existing-behavior facts and the design (Verification Strategy's Output Comparison binds runtime behavior separately). Other sections that describe existing behavior reference the row by `fact_id` value.
+
+| Fact ID | Focus Area | Disposition | Rationale | Evidence | Related Files |
+|---------|------------|-------------|-----------|----------|---------------|
+| [fact_id from focusAreas] | [area name from focusAreas] | preserve / transform / remove / out-of-scope | [preserve: confirmation-only language, e.g., "existing behavior retained without modification" — Rationale asserting a behavior change is flagged as preserve mismatch; transform: state new observable outcome, e.g., "branch X now returns 404 instead of 410" — Rationale asserting no change at all is flagged as transform mismatch; remove: state reason with PRD/UI Spec citation when policy-driven — Rationale asserting production-code retention is flagged as remove mismatch (test/migration retention stated explicitly is acceptable); out-of-scope: cite the scope-defining section and prefer preserve when behavior continues unchanged] | [evidence value carried verbatim from focusAreas] | [comma-separated path list carried verbatim from focusAreas.relatedFiles, e.g., `src/auth/createUser.ts, src/api/routes/users.ts`] |
+
+### Cross-Layer Assumptions (cross-layer flow only)
+
+When this Design Doc depends on unverified claims from a prior-layer Design Doc (see Prior-Layer Verification), list each with justification and downstream verification target:
+
+- [claim]: [justification]; verify at [step or artifact]
+
+## Design
+
+### Change Impact Map
+
+```yaml
+Change Target: [Component/feature to change]
+Direct Impact:
+  - [Files/functions requiring direct changes]
+  - [Interface change points]
+Indirect Impact:
+  - [Data format changes]
+  - [Processing time changes]
+No Ripple Effect:
+  - [Explicitly specify unaffected features]
+```
+
+### Interface Change Matrix
+
+| Existing | New | Conversion Required | Compatibility Method |
+|----------|-----|--------------------|--------------------|
+| [Function/method/operation name] | [Function/method/operation name] | [Yes/No] | [Approach: adapter, wrapper, deprecation, etc.] |
+
+### Architecture Overview
+
+[How this feature is positioned within the overall system]
+
+### Data Flow
+
+```
+[Express data flow using diagrams or pseudo-code]
+```
+
+### Integration Points List
+
+| Integration Point | Location | Old Implementation | New Implementation | Switching Method | Verification Method |
+|-------------------|----------|-------------------|-------------------|------------------|-------------------|
+| Integration Point 1 | [Class/Function] | [Existing Process] | [New Process] | [DI/Factory etc.] | [How to verify this switching works] |
+| Integration Point 2 | [Another Location] | [Existing] | [New] | [Method] | [Verification approach] |
+
+### Main Components
+
+#### Component 1
+
+- **Responsibility**: [Scope of responsibility for this component]
+- **Interface**: [APIs and type definitions provided]
+- **Dependencies**: [Relationships with other components]
+
+#### Component 2
+
+- **Responsibility**: [Scope of responsibility for this component]
+- **Interface**: [APIs and type definitions provided]
+- **Dependencies**: [Relationships with other components]
+
+### Data Representation Decision (When Introducing New Structures)
+Evaluate existing structures: semantic fit, responsibility fit, lifecycle fit, boundary/interop cost.
+- All fit → reuse existing
+- 1-2 fail → extend with adapter
+- 3+ fail → new structure justified
+
+**Decision**: [reuse / extend / new] — [rationale]
+
+### Minimal Surface Alternatives (When Introducing Maintenance-Surface Elements)
+
+One entry per new in-scope element (persistent state / public-contract element or cross-boundary field or prop / behavioral mode/flag/variant / reusable abstraction or component split). Records the 5-step output produced by the invoking designer agent. Reference: `coding-standards` skill, "Minimum Surface for Required Coverage".
+
+#### Element 1: [name of the new element]
+
+**Step 1 — Fixed Requirements**
+- [AC reference — AC ID, AC heading, EARS clause, or constraint ID]: [requirement / constraint text]
+- [AC reference]: [requirement / constraint text]
+
+References may point to the Design Doc, referenced PRD, or referenced UI Spec.
+
+**Steps 2–3 — Alternatives Compared**
+
+Adapt the column names below to the design context: backend Design Docs use "Crosses module/service boundary" and "New concept / mode / flag"; frontend Design Docs use "Crosses component boundary" and "New props / modes / variants" (and add the "client or server" qualifier to the persistent-state column).
+
+| Alternative | Current requirements covered (AC reference) | New persistent state introduced (count) | New concept / mode / flag / prop / variant (count) | Crosses module/service or component boundary (yes/no) | Breaking change or migration required (yes/no) | Subjective cost notes |
+|---|---|---|---|---|---|---|
+| [The added element as proposed] | | | | | | |
+| [Subtractive alternative — derive / compute on demand / keep at caller / reuse existing / introduce no new state] | | | | | | |
+| [Optional third alternative] | | | | | | |
+
+Subjective cost notes accepts: maintainability concerns, naming clarity, perceived implementation effort, future-readiness sentiment, and similar judgment-level remarks.
+
+**Resolution priority for selecting "smallest"** (later columns are tiebreakers when earlier are equal):
+1. New persistent state introduced (lower = smaller)
+2. Crosses module/service or component boundary (no = smaller)
+3. New concept / mode / flag / prop / variant (lower = smaller)
+4. Breaking change or migration required (no = smaller)
+5. Subjective cost notes
+
+**Step 4 — Selected Alternative and Rationale**
+- **Selected**: [alternative name]
+- **Rationale**:
+  - When selected = smallest alternative considered: state "smallest alternative considered; no further reduction available"
+  - When selected > smallest: name the current requirement(s) from Step 1 that smaller alternatives fail to satisfy
+
+**Step 5 — Rejected Alternatives Log**
+- [Alternative name]: [1-2 lines on what it was and why rejected]
+- [Alternative name]: [1-2 lines on what it was and why rejected]
+
+Repeat the Element block above for each additional in-scope element. Mark the whole section N/A with brief rationale when the design introduces no in-scope elements.
+
+### Type Definitions
+
+```typescript
+// Record major type definitions here
+```
+
+### Data Contract
+
+#### Component 1
+
+```yaml
+Input:
+  Type: [TypeScript type definition]
+  Preconditions: [Required items, format constraints]
+  Validation: [Validation method]
+
+Output:
+  Type: [TypeScript type definition]
+  Guarantees: [Conditions that must always be met]
+  On Error: [Exception/null/default value]
+
+Invariants:
+  - [Conditions that remain unchanged before and after processing]
+```
+
+### Field Propagation Map (When Fields Cross Boundaries)
+- [field]: [ComponentA → B] — preserved / transformed / dropped — [reason]
+
+### State Transitions and Invariants
+
+[If the feature involves state management, describe state transitions and invariants here]
+
+```
+[State A] ---(event 1)---> [State B]
+[State B] ---(event 2)---> [State C]
+```
+
+**Invariants**:
+- [Condition that must always hold true]
+- [Constraints on valid state transitions]
+
+### UI Error State Design (when feature includes frontend)
+
+| Component / Screen | Loading | Empty | Error | Partial |
+|-------------------|---------|-------|-------|---------|
+| [Component name] | [Skeleton / spinner] | [Empty state + CTA] | [Error message + Retry] | [Cached display + Banner] |
+
+### Client State Design (when feature includes frontend)
+
+| State Category | State | Management Method | Sync Strategy |
+|---------------|-------|-------------------|---------------|
+| Server state | [Fetched data] | [Cache library / custom hook] | [Polling / WebSocket / manual refresh] |
+| Local UI state | [Modal open, tab selection] | [useState / useReducer] | - |
+| Temporary state | [Form input, draft] | [useState / form library] | [Auto-save / manual save] |
+
+### UI Action - API Contract Mapping (when feature includes frontend)
+
+| UI Action | API Endpoint | Request | Response | Error Contract |
+|-----------|-------------|---------|----------|----------------|
+| [Button click / form submit] | [POST /api/xxx] | [Request body fields] | [Response fields] | [Error codes and UI handling] |
+
+### Error Handling
+
+| Error Category | Example | Detection | Recovery Strategy | User Impact |
+|---------------|---------|-----------|-------------------|-------------|
+| [Validation / External / Infrastructure / Business logic] | [Specific error] | [How detected] | [Retry / Fallback / Propagate / Log-and-continue] | [User-facing message or silent handling] |
+
+### Logging and Monitoring
+
+- **Log events**: [Key events to log: state transitions, external calls, error occurrences, performance thresholds]
+- **Log levels**: [Which events at DEBUG/INFO/WARN/ERROR]
+- **Sensitive data**: [Fields to mask or exclude — coordinate with Security Considerations]
+- **Monitoring**: [Metrics to track, alert thresholds, dashboard requirements]
+
+## Implementation Plan
+
+### Implementation Approach
+
+**Selected Approach**: [Approach name or combination]
+**Selection Reason**: [Reason considering project constraints and technical dependencies]
+
+### Technical Dependencies and Implementation Order
+
+#### Required Implementation Order
+1. **[Component/Feature A]**
+   - Technical Reason: [Why this needs to be implemented first]
+   - Dependent Elements: [Other components that depend on this]
+
+2. **[Component/Feature B]**
+   - Technical Reason: [Technical necessity to implement after A]
+   - Prerequisites: [Required pre-implementations]
+
+### Migration Strategy
+
+[Technical migration approach, ensuring backward compatibility]
+
+## Security Considerations
+
+Evaluate the following for this feature's trust boundaries and data flow:
+
+- **Authentication & Authorization**: What authentication is required for new entry points? What authorization checks protect resource access?
+- **Input Validation**: Where does external input enter the system? How is it validated before processing?
+- **Sensitive Data Handling**: What data requires protection (encryption, masking, access control)? What data is safe to include in logs and error responses?
+
+Mark items as N/A with brief rationale when the feature has no relevant trust boundary.
+
+## Test Boundaries
+
+### Mock Boundary Decisions
+
+| Component/Dependency | Mock? | Rationale |
+|---------------------|-------|-----------|
+| [External API / DB / File system / etc.] | [Yes/No] | [Why this boundary was chosen] |
+
+### Data Layer Testing Strategy
+
+- **Schema dependencies**: [List tables/models this feature reads from or writes to, with paths to their definitions]
+- **Test data approach**: [How test data is provided — fixtures, factories, seed scripts, or real database]
+- **Mock limitations acknowledged**: [What cannot be reliably tested with mocks alone for this feature]
+
+Mark as N/A with brief rationale when the feature has no data layer dependencies.
+
+### Integration Verification Points
+
+- [List critical integration points that require testing beyond unit-level mocks]
+
+## Verification Strategy
+
+Verification Strategy defines what correctness means and how to prove it at design time. L1/L2/L3 (verification granularity tiers) define completion verification granularity at task execution time.
+
+### Correctness Proof Method
+
+How will this change's correctness be demonstrated?
+
+- **Correctness definition**: [What "correct" means for this change — e.g., "output matches existing behavior", "all ACs pass in production-equivalent environment", "generated queries execute without error on target DB"]
+- **Verification method**: [Specific technique — e.g., "compare new implementation output against existing implementation", "run against staging DB", "contract test with real API"]
+- **Verification timing**: [When verification occurs — e.g., "after first vertical slice", "per repository", "at integration phase"]
+
+### Early Verification Point
+
+What is verified first, and how, to confirm the approach is correct before scaling?
+
+- **First verification target**: [The smallest unit that proves the approach works — e.g., "first repository migration", "single API endpoint", "one screen flow"]
+- **Success criteria**: [Observable outcome — e.g., "CSV download produces identical output to legacy", "API returns 200 with expected schema"]
+- **Failure response**: [What to do if early verification fails — e.g., "reassess approach before proceeding", "escalate to user"]
+
+### Output Comparison (When Replacing or Modifying Existing Behavior)
+
+How will behavioral equivalence be verified between existing and new implementation?
+
+- **Comparison input**: [Identical input used for both implementations — e.g., "same DB snapshot", "same API request payload"]
+- **Expected output fields**: [Specific fields/columns to compare — e.g., "all output columns", "response body fields: id, status, amount"]
+- **Diff method**: [How to compare — e.g., "file-level diff", "JSON field-by-field comparison", "row count + spot check"]
+- **Transformation pipeline coverage**: [Each step from codebase analysis `dataTransformationPipelines` and what the comparison covers]
+
+Mark as N/A with brief rationale when the design introduces entirely new behavior with no existing equivalent.
+
+## Alternative Solutions
+
+### Alternative 1
+
+- **Overview**: [Description of alternative solution]
+- **Advantages**: [Advantages]
+- **Disadvantages**: [Disadvantages]
+- **Reason for Rejection**: [Why it wasn't adopted]
+
+## Future Extensibility
+
+This section records capabilities **excluded** from the current design surface. Limit entries to capabilities tied to a current requirement, a current consumer, or a documented constraint; route purely speculative future plans into a separate proposal document.
+
+Distinguish from "Minimal Surface Alternatives → Step 5 (Rejected Alternatives)": Step 5 records element-level alternatives that were compared and rejected within a single in-scope element; this section records capability-level items not bound to a single element (broader scope considered but excluded).
+
+- **Deferred possibilities**: [Capabilities considered during design and explicitly excluded from the current design surface. Each entry names the current requirement it would have served]
+- **Intentional limitations**: [What was deliberately kept small and why]
+- **Extension points (existing, with current consumers)**: [Interfaces or hooks already in use by named current consumers. Each entry names a current consumer]
+
+## Risks and Mitigation
+
+| Risk | Impact | Probability | Mitigation |
+|------|--------|-------------|------------|
+| [Risk 1] | High/Medium/Low | High/Medium/Low | [Countermeasure] |
+
+## References
+
+- [Related documentation and links]
+
+## Update History
+
+| Date | Version | Changes | Author |
+|------|---------|---------|--------|
+| YYYY-MM-DD | 1.0 | Initial version | [Name] |
