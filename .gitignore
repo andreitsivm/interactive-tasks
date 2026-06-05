@@ -39,4 +39,5 @@ yarn-error.log*
 .agents
 post-log.json
 .claude/specs
-docs/superpowers/*
+docs/superpowers/plans/
+docs/superpowers/specs/

@@ -43,3 +43,12 @@ When writing or modifying code that integrates with Paddle:
 
 - Never commit automatically unless I explicitly ask
 - No need to clutter git history with a working document. Skipping the commit.
+
+## TypeScript
+
+Never use `as any`, `as unknown`, or unsafe type assertions to silence type errors.
+Resolve type errors properly — with generics, utility types (`ReturnType`, `Parameters`,
+`Awaited`, `Extract`, `Pick` etc.), or types imported from the relevant library.
+
+When working with library APIs (next-intl, Paddle, Radix, etc.), import and use the
+types the library exports rather than redeclaring them locally or casting around them.
