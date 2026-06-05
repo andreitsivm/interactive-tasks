@@ -1,0 +1,19 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 440 440"
+  role="img"
+  aria-labelledby="logo-title"
+>
+  <title id="logo-title">Interactive Tasks logo</title>
+
+  <rect x="0" y="0" width="440" height="440" rx="88" fill="#1a1a2e"/>
+
+  <rect x="36" y="36" width="140" height="140" rx="28" fill="white"/>
+  <rect x="264" y="36" width="140" height="140" rx="28" fill="white"/>
+  <rect x="36" y="264" width="140" height="140" rx="28" fill="white"/>
+
+  <path d="M310 266 L244 358 L276 358 L248 412 L344 308 L310 308 Z" fill="white"/>
+
+  <circle cx="396" cy="28" r="10" fill="white" opacity="0.35"/>
+  <circle cx="420" cy="8" r="6" fill="white" opacity="0.22"/>
+</svg>
