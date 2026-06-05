@@ -1,4 +1,4 @@
-# Shared Types Package (`@repo/types`)
+# Shared Types Package (`@workspace/types`)
 
 `packages/types` is the single source of truth for all types shared between `apps/api` (NestJS) and `apps/web` (Next.js). It contains only TypeScript interfaces and enums — zero runtime dependencies, zero framework imports.
 

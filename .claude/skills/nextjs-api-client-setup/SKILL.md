@@ -15,15 +15,15 @@ This file is created once. All server-side calls to NestJS go through this singl
 
 ```typescript
 // apps/web/lib/api.ts
-import "server-only";
-import axios from "axios";
-import { auth } from "@/auth";
+import 'server-only';
+import axios from 'axios';
+import { auth } from '@/auth';
 
 const api = axios.create({
   baseURL: process.env.NESTJS_API_URL,
 });
 
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async config => {
   const session = await auth();
   if (session?.accessToken) {
     config.headers.Authorization = `Bearer ${session.accessToken}`;
@@ -32,8 +32,8 @@ api.interceptors.request.use(async (config) => {
 });
 
 api.interceptors.response.use(
-  (res) => res,
-  (error) => {
+  res => res,
+  error => {
     // normalize and rethrow — never swallow errors here
     throw error;
   },
@@ -60,7 +60,7 @@ NESTJS_API_URL=http://localhost:3001   # local dev
 
 ```typescript
 import api from '@/lib/api'
-import type { ITaskResponse } from '@repo/types'
+import type { ITaskResponse } from '@workspace/types'
 
 export default async function TasksPage() {
   const { data } = await api.get<ITaskResponse[]>('/tasks')
@@ -74,17 +74,17 @@ Use this when a Client Component needs to trigger a mutation or fetch.
 
 ```typescript
 // apps/web/app/api/tasks/route.ts
-import api from "@/lib/api";
-import type { ITaskResponse, ICreateTaskDto } from "@repo/types";
+import api from '@/lib/api';
+import type { ITaskResponse, ICreateTaskDto } from '@workspace/types';
 
 export async function GET() {
-  const { data } = await api.get<ITaskResponse[]>("/tasks");
+  const { data } = await api.get<ITaskResponse[]>('/tasks');
   return Response.json(data);
 }
 
 export async function POST(request: Request) {
   const body = (await request.json()) as ICreateTaskDto;
-  const { data } = await api.post<ITaskResponse>("/tasks", body);
+  const { data } = await api.post<ITaskResponse>('/tasks', body);
   return Response.json(data, { status: 201 });
 }
 ```
@@ -94,12 +94,12 @@ export async function POST(request: Request) {
 Client Components call the Next.js API route — never `api.ts` directly.
 
 ```typescript
-"use client";
+'use client';
 
 async function createTask(dto: ICreateTaskDto) {
-  const res = await fetch("/api/tasks", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const res = await fetch('/api/tasks', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(dto),
   });
   return res.json() as Promise<ITaskResponse>;

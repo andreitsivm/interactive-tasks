@@ -4,7 +4,7 @@
 
 - **Auth.js (NextAuth)** runs in `apps/web` — handles login, OAuth, session storage in Postgres
 - **JWT** — Auth.js issues a signed JWT containing `IJwtPayload`; NestJS verifies it with `AUTH_SECRET`
-- **Shared types** — `IJwtPayload`, `IUser`, `UserRole`, `Permission` are defined in `@repo/types`
+- **Shared types** — `IJwtPayload`, `IUser`, `UserRole`, `Permission` are defined in `@workspace/types`
 
 See `@.claude/skills/fullstack-auth-setup` for Auth.js configuration, `@CurrentUser()` decorator, JWT strategy, and TypeScript module augmentation templates.
 

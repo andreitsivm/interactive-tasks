@@ -2,11 +2,11 @@
 
 ## DTO rule — must implement shared interface
 
-Every NestJS request DTO must `implements` the corresponding interface from `@repo/types`. This enforces compile-time drift detection: if the shared interface changes, TypeScript errors immediately on the DTO class.
+Every NestJS request DTO must `implements` the corresponding interface from `@workspace/types`. This enforces compile-time drift detection: if the shared interface changes, TypeScript errors immediately on the DTO class.
 
 - `class-validator` decorators belong on the NestJS DTO class only — never in `packages/types`
 - `@ApiProperty()` (Swagger) also stays on the NestJS DTO class only
-- The `implements` clause must reference the exact interface from `@repo/types`, not a locally defined type
+- The `implements` clause must reference the exact interface from `@workspace/types`, not a locally defined type
 - Never use `Partial<ICreateXxxDto>` in the `implements` clause — define a separate `IUpdateXxxDto` interface for partial updates
 
 Controllers return response DTO classes (which also implement shared response interfaces), not raw domain entities or Drizzle rows.

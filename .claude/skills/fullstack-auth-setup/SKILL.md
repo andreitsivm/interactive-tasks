@@ -18,15 +18,15 @@ Stack: Auth.js (NextAuth v5) in Next.js + passport-jwt in NestJS + shared `AUTH_
 ```typescript
 // packages/types/src/user.ts
 export enum UserRole {
-  Admin = "admin",
-  Manager = "manager",
-  Member = "member",
+  Admin = 'admin',
+  Manager = 'manager',
+  Member = 'member',
 }
 
 export enum Permission {
-  ReadTasks = "read:tasks",
-  WriteTasks = "write:tasks",
-  ManageUsers = "manage:users",
+  ReadTasks = 'read:tasks',
+  WriteTasks = 'write:tasks',
+  ManageUsers = 'manage:users',
 }
 
 export interface IUser {
@@ -41,8 +41,8 @@ export interface IUser {
 
 ```typescript
 // packages/types/src/auth.ts
-import type { IUser } from "./user";
-import type { UserRole, Permission } from "./user";
+import type { IUser } from './user';
+import type { UserRole, Permission } from './user';
 
 export interface IJwtPayload {
   sub: string;
@@ -54,7 +54,7 @@ export interface IJwtPayload {
 }
 
 export interface IAuthSession {
-  user: Pick<IUser, "id" | "email" | "name" | "roles" | "permissions">;
+  user: Pick<IUser, 'id' | 'email' | 'name' | 'roles' | 'permissions'>;
   accessToken: string;
 }
 ```
@@ -62,15 +62,15 @@ export interface IAuthSession {
 ## 2. Auth.js configuration (`apps/web/auth.ts`)
 
 ```typescript
-import NextAuth from "next-auth";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db } from "@/database/client";
-import type { UserRole, Permission } from "@repo/types";
-import { getRolePermissions } from "./lib/permissions";
+import NextAuth from 'next-auth';
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
+import { db } from '@/database/client';
+import type { UserRole, Permission } from '@workspace/types';
+import { getRolePermissions } from './lib/permissions';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
-  session: { strategy: "jwt" },
+  session: { strategy: 'jwt' },
   callbacks: {
     jwt({ token, user }) {
       if (user) {
@@ -96,9 +96,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 Extend Auth.js types to include `roles`, `permissions`, and `accessToken`:
 
 ```typescript
-import type { UserRole, Permission } from "@repo/types";
+import type { UserRole, Permission } from '@workspace/types';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     accessToken: string;
     user: {
@@ -114,7 +114,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     id: string;
     roles: UserRole[];
@@ -126,7 +126,7 @@ declare module "next-auth/jwt" {
 ## 4. Role→permissions mapping (`apps/api/src/auth/permissions.map.ts`)
 
 ```typescript
-import { UserRole, Permission } from "@repo/types";
+import { UserRole, Permission } from '@workspace/types';
 
 export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
   [UserRole.Admin]: Object.values(Permission),
@@ -135,7 +135,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Permission[]> = {
 };
 
 export function getRolePermissions(roles: UserRole[]): Permission[] {
-  const perms = new Set(roles.flatMap((r) => ROLE_PERMISSIONS[r] ?? []));
+  const perms = new Set(roles.flatMap(r => ROLE_PERMISSIONS[r] ?? []));
   return [...perms];
 }
 ```
@@ -145,10 +145,10 @@ Keep the same `getRolePermissions` function in `apps/web/lib/permissions.ts` (us
 ## 5. NestJS JWT strategy (`apps/api/src/auth/jwt.strategy.ts`)
 
 ```typescript
-import { Injectable } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { ExtractJwt, Strategy } from "passport-jwt";
-import type { IJwtPayload } from "@repo/types";
+import { Injectable } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import type { IJwtPayload } from '@workspace/types';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -168,18 +168,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 ## 6. JWT guard (`apps/api/src/auth/jwt.guard.ts`)
 
 ```typescript
-import { Injectable } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
+import { Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
-export class JwtGuard extends AuthGuard("jwt") {}
+export class JwtGuard extends AuthGuard('jwt') {}
 ```
 
 ## 7. `@CurrentUser()` decorator (`apps/api/src/auth/current-user.decorator.ts`)
 
 ```typescript
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import type { IJwtPayload } from "@repo/types";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import type { IJwtPayload } from '@workspace/types';
 
 export const CurrentUser = createParamDecorator(
   (_data, ctx: ExecutionContext): IJwtPayload =>
@@ -190,21 +190,21 @@ export const CurrentUser = createParamDecorator(
 ## 8. Roles guard (`apps/api/src/auth/roles.guard.ts`)
 
 ```typescript
-import { Injectable, CanActivate, ExecutionContext } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import type { IJwtPayload, UserRole } from "@repo/types";
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import type { IJwtPayload, UserRole } from '@workspace/types';
 
-export const Roles = (...roles: UserRole[]) => SetMetadata("roles", roles);
+export const Roles = (...roles: UserRole[]) => SetMetadata('roles', roles);
 
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(ctx: ExecutionContext): boolean {
-    const required = this.reflector.get<UserRole[]>("roles", ctx.getHandler());
+    const required = this.reflector.get<UserRole[]>('roles', ctx.getHandler());
     if (!required?.length) return true;
     const user = ctx.switchToHttp().getRequest().user as IJwtPayload;
-    return required.some((role) => user.roles.includes(role));
+    return required.some(role => user.roles.includes(role));
   }
 }
 ```
@@ -212,11 +212,11 @@ export class RolesGuard implements CanActivate {
 ## 9. Auth module (`apps/api/src/auth/auth.module.ts`)
 
 ```typescript
-import { Module } from "@nestjs/common";
-import { PassportModule } from "@nestjs/passport";
-import { JwtStrategy } from "./jwt.strategy";
-import { JwtGuard } from "./jwt.guard";
-import { RolesGuard } from "./roles.guard";
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
+import { JwtGuard } from './jwt.guard';
+import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: [PassportModule],

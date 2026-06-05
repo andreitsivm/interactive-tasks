@@ -68,7 +68,7 @@ export abstract class <Domain>Repository {
 import { Injectable } from '@nestjs/common'
 import { <Domain>Repository } from '../../domain/<domain>.repository'
 import type { <Domain> } from '../../domain/<domain>.entity'
-import type { ICreate<Domain>Dto } from '@repo/types'
+import type { ICreate<Domain>Dto } from '@workspace/types'
 
 @Injectable()
 export class Create<Domain>UseCase {
@@ -161,7 +161,7 @@ export class Drizzle<Domain>Repository implements <Domain>Repository {
 ```typescript
 // infrastructure/http/dto/create-<domain>.dto.ts
 import { IsString, IsNotEmpty } from 'class-validator'
-import type { ICreate<Domain>Dto } from '@repo/types'
+import type { ICreate<Domain>Dto } from '@workspace/types'
 
 export class Create<Domain>Dto implements ICreate<Domain>Dto {
   @IsString()
@@ -174,7 +174,7 @@ export class Create<Domain>Dto implements ICreate<Domain>Dto {
 
 ```typescript
 // infrastructure/http/dto/<domain>-response.dto.ts
-import type { I<Domain>Response } from '@repo/types'
+import type { I<Domain>Response } from '@workspace/types'
 
 export class <Domain>ResponseDto implements I<Domain>Response {
   id: string
@@ -190,7 +190,7 @@ export class <Domain>ResponseDto implements I<Domain>Response {
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common'
 import { JwtGuard } from 'src/auth/jwt.guard'
 import { CurrentUser } from 'src/auth/current-user.decorator'
-import type { IJwtPayload } from '@repo/types'
+import type { IJwtPayload } from '@workspace/types'
 import { Create<Domain>UseCase } from '../../application/use-cases/create-<domain>.use-case'
 import { Create<Domain>Dto } from './dto/create-<domain>.dto'
 import { <Domain>ResponseDto } from './dto/<domain>-response.dto'
