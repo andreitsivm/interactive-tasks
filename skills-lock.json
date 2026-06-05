@@ -73,6 +73,12 @@
       "skillPath": "skills/webhooks/SKILL.md",
       "computedHash": "26312a435a67beafc745e6c5088d9f2e10292e2485643a94fb3e006cb037326e"
     },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "8f8bcc9024aa068245fac646d654a18c80280e4b06112ccd3e691a8c96cd66bd"
+    },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
