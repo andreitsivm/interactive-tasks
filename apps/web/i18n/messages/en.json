@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "tasks": "Tasks",
+    "getStarted": "Get started"
+  },
+  "hero": {
+    "headline": "Generate interactive learning tasks in seconds",
+    "subheadline": "AI-powered platform for creating fill-the-gap tests, image-word matching, and other interactive educational tasks — configurable by topic, level, age group, and language.",
+    "cta": "Get started free",
+    "ctaSecondary": "See how it works"
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "step1Title": "Configure",
+    "step1Description": "Choose your topic, language level, age group, and task type.",
+    "step2Title": "Generate",
+    "step2Description": "Our AI creates a tailored interactive task in seconds.",
+    "step3Title": "Export & Embed",
+    "step3Description": "Download, share, or embed the task in your platform."
+  },
+  "taskTypes": {
+    "title": "Task types",
+    "fillTheGap": "Students fill in missing words in context-rich sentences.",
+    "imageWord": "Match images to their corresponding words or phrases.",
+    "association": "Connect related concepts through visual association exercises.",
+    "vocabulary": "Build and reinforce vocabulary with targeted exercises."
+  },
+  "demo": {
+    "title": "See it in action",
+    "subtitle": "Configure a task and preview the result instantly.",
+    "topicLabel": "Topic",
+    "topicPlaceholder": "e.g. Animals, Travel, Business",
+    "levelLabel": "Level",
+    "languageLabel": "Language",
+    "previewTitle": "Sample task preview",
+    "previewPlaceholder": "Your task preview will appear here"
+  },
+  "pricing": {
+    "title": "Simple pricing",
+    "subtitle": "Start free, upgrade when you're ready.",
+    "subscribe": "Subscribe",
+    "perMonth": "/ month",
+    "fallbackPlan1Name": "Starter",
+    "fallbackPlan1Price": "$9",
+    "fallbackPlan1Description": "For individual teachers and tutors.",
+    "fallbackPlan2Name": "Pro",
+    "fallbackPlan2Price": "$29",
+    "fallbackPlan2Description": "For schools and language centers."
+  },
+  "testimonials": {
+    "title": "Loved by educators",
+    "quote1": "This tool saves me hours every week creating materials for my students.",
+    "author1": "Maria K., ESL Teacher",
+    "quote2": "My students are more engaged with interactive tasks than traditional worksheets.",
+    "author2": "James R., Language School Director",
+    "quote3": "The variety of task types keeps lessons fresh and effective.",
+    "author3": "Olena P., Private Tutor"
+  },
+  "cta": {
+    "title": "Ready to transform your teaching?",
+    "subtitle": "Join educators worldwide creating better learning experiences.",
+    "button": "Get started free"
+  },
+  "footer": {
+    "tagline": "Generate interactive learning tasks in seconds",
+    "product": "Product",
+    "taskTypes": "Task Types",
+    "legal": "Legal",
+    "blog": "Blog",
+    "allRightsReserved": "All rights reserved."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist.",
+    "goHome": "Go home",
+    "contactSupport": "Contact support"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "tryAgain": "Try again"
+  }
+}

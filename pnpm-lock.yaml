@@ -159,6 +159,9 @@ importers:
       tw-animate-css:
         specifier: ^1.4.0
         version: 1.4.0
+      use-intl:
+        specifier: ^4.13.0
+        version: 4.13.0(react@19.2.0)
     devDependencies:
       '@types/node':
         specifier: ^22.15.3
