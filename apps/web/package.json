@@ -8,20 +8,28 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
-    "check-types": "next typegen && tsc --noEmit"
+    "check-types": "next typegen && tsc --noEmit",
+    "db:push": "drizzle-kit push",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/core": "^0.34.3",
+    "@auth/drizzle-adapter": "^1.11.2",
     "@tailwindcss/postcss": "^4.3.0",
     "@workspace/mail": "workspace:*",
     "@workspace/types": "workspace:*",
     "@workspace/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.17.0",
     "next": "16.2.0",
+    "next-auth": "^4.24.14",
     "next-intl": "^4.13.0",
     "next-themes": "^0.4.6",
     "postcss": "^8.5.15",
+    "postgres": "^3.4.9",
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -38,6 +46,7 @@
     "@types/react-dom": "19.2.2",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.1",
     "typescript": "5.9.2"
   }
