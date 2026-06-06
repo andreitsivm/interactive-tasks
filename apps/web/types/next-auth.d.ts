@@ -18,5 +18,6 @@ declare module "next-auth/jwt" {
     id: string;
     roles: UserRole[];
     permissions: Permission[];
+    accessToken: string;
   }
 }

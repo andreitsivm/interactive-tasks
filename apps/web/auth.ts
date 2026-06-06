@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { SignJWT } from "jose";
 import { eq } from "drizzle-orm";
 import { db } from "@/database/client";
 import { users, accounts, verificationTokens } from "@/database/schema/auth";
@@ -11,15 +12,27 @@ import { sendWelcomeEmail } from "@workspace/mail";
 import { getServerSession } from "next-auth/next";
 import type { AuthOptions, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
-import type { UserRole } from "@workspace/types";
+import type { UserRole, IJwtPayload } from "@workspace/types";
 
-/** Type guard: the user returned from our Credentials authorize callback carries `roles`. */
 function hasRoles(
   user: User | AdapterUser,
 ): user is (User | AdapterUser) & { roles: string[] } {
   return (
     "roles" in user && Array.isArray((user as Record<string, unknown>).roles)
   );
+}
+
+function getJwtSecret(): Uint8Array {
+  return new TextEncoder().encode(process.env.AUTH_SECRET!);
+}
+
+async function signApiToken(payload: IJwtPayload): Promise<string> {
+  const { sub, email, roles, permissions } = payload;
+  return new SignJWT({ sub, email, roles, permissions })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("1h")
+    .sign(getJwtSecret());
 }
 
 export const authOptions: AuthOptions = {
@@ -34,14 +47,12 @@ export const authOptions: AuthOptions = {
       name: "Credentials",
       credentials: {},
       async authorize(credentials) {
-        const { token, mode } = credentials as {
-          token: string;
-          mode: "signin" | "signup";
-        };
+        const { token } = credentials as { token: string };
 
         let email: string;
+        let mode: "signin" | "signup";
         try {
-          email = await verifyPreVerifiedToken(token);
+          ({ email, mode } = await verifyPreVerifiedToken(token));
         } catch {
           return null;
         }
@@ -77,37 +88,42 @@ export const authOptions: AuthOptions = {
         return newUser ?? null;
       },
     }),
-    ...(process.env.AUTH_GOOGLE_ID
+    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
       ? [
           GoogleProvider({
             clientId: process.env.AUTH_GOOGLE_ID,
-            clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+            clientSecret: process.env.AUTH_GOOGLE_SECRET,
           }),
         ]
       : []),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id ?? "";
         token.roles = (hasRoles(user) ? user.roles : ["member"]) as UserRole[];
         token.permissions = getRolePermissions(token.roles);
       }
+      // Always keep accessToken fresh — NestJS passport-jwt verifies this
+      const apiPayload: IJwtPayload = {
+        sub: token.id,
+        email: token.email ?? "",
+        roles: token.roles,
+        permissions: token.permissions,
+      };
+      token.accessToken = await signApiToken(apiPayload);
       return token;
     },
     session({ session, token }) {
       session.user.id = token.id;
       session.user.roles = token.roles;
       session.user.permissions = token.permissions;
-      session.accessToken = token.sub ?? "";
+      session.accessToken = token.accessToken;
       return session;
     },
   },
 };
 
-/**
- * Server-side session helper — call from Server Components and Route Handlers.
- */
 export const auth = () => getServerSession(authOptions);
 
 export const handlers = NextAuth(authOptions);
