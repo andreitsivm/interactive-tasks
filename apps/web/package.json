@@ -18,6 +18,8 @@
   "dependencies": {
     "@auth/core": "^0.34.3",
     "@auth/drizzle-adapter": "^1.11.2",
+    "@paddle/paddle-js": "^1.6.4",
+    "@paddle/paddle-node-sdk": "^3.8.0",
     "@tailwindcss/postcss": "^4.3.0",
     "@workspace/mail": "workspace:*",
     "@workspace/types": "workspace:*",
