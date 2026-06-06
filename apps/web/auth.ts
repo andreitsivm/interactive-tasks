@@ -37,8 +37,8 @@ function getJwtSecret(): Uint8Array {
 }
 
 async function signApiToken(payload: IJwtPayload): Promise<string> {
-  const { sub, email, roles, permissions } = payload;
-  return new SignJWT({ sub, email, roles, permissions })
+  const { sub, email, roles, permissions, subscriptionPlan } = payload;
+  return new SignJWT({ sub, email, roles, permissions, subscriptionPlan })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("1h")
@@ -132,6 +132,7 @@ export const authOptions: AuthOptions = {
       session.user.id = token.id;
       session.user.roles = token.roles;
       session.user.permissions = token.permissions;
+      session.user.subscriptionPlan = token.subscriptionPlan ?? "free";
       session.accessToken = token.accessToken;
       return session;
     },
