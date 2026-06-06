@@ -44,7 +44,7 @@ const proFeatures = [
   "Team sharing",
 ];
 
-export function PricingCards({ prices, locale: _locale }: PricingCardsProps) {
+export function PricingCards({ prices }: PricingCardsProps) {
   const t = useTranslations("pricing");
 
   useEffect(() => {
