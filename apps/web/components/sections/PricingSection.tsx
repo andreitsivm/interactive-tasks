@@ -1,8 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Script from "next/script";
 import { fetchPaddlePrices, type PaddlePrice } from "@/lib/paddle";
-import { JsonLd } from "@/components/JsonLd";
-import { buildSoftwareAppJsonLd } from "@/lib/structured-data";
 import { PricingCards } from "./PricingCards";
 
 const PRICE_IDS = [
@@ -21,24 +19,18 @@ export async function PricingSection() {
     prices = [];
   }
 
-  const lowestPrice = prices[0];
-  const structuredDataPrices = lowestPrice
-    ? {
-        currency: lowestPrice.unitPrice.currencyCode,
-        amount: parseFloat(lowestPrice.unitPrice.amount) / 100,
-      }
-    : undefined;
-
   return (
     <section className="py-24 px-4">
       <Script
         src="https://cdn.paddle.com/paddle/v2/paddle.js"
         strategy="afterInteractive"
       />
-      <JsonLd schema={buildSoftwareAppJsonLd(locale, structuredDataPrices)} />
       <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">{t("title")}</h2>
+        <div className="text-center mb-16">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            Pricing
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-3">{t("title")}</h2>
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
         <PricingCards prices={prices} locale={locale} />

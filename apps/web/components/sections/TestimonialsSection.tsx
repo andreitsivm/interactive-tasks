@@ -12,9 +12,14 @@ export async function TestimonialsSection() {
   const t = await getTranslations("testimonials");
 
   return (
-    <section className="py-24 px-4 bg-muted/40">
+    <section className="py-24 px-4 bg-muted/60">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-3xl font-bold text-center mb-16">{t("title")}</h2>
+        <div className="text-center mb-16">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            Social proof
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold">{t("title")}</h2>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map(({ quoteKey, authorKey }) => (
             <Card key={quoteKey}>

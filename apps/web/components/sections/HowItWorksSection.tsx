@@ -21,23 +21,31 @@ export async function HowItWorksSection() {
   return (
     <section id="how-it-works" className="py-24 px-4 bg-muted/40">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-3xl font-bold text-center mb-16">{t("title")}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="text-center mb-16">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            How it works
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold">{t("title")}</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-16">
           {steps.map(({ titleKey, descKey, icon: Icon }, idx) => (
             <div
               key={titleKey}
               className="flex flex-col items-center text-center gap-4"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <Icon className="h-5 w-5" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-4xl font-bold text-muted-foreground/30">
-                  {idx + 1}
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
+                  Step {idx + 1}
                 </span>
-                <h3 className="text-xl font-semibold">{t(titleKey)}</h3>
               </div>
-              <p className="text-muted-foreground">{t(descKey)}</p>
+              <h3 className="text-xl font-bold">{t(titleKey)}</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                {t(descKey)}
+              </p>
             </div>
           ))}
         </div>

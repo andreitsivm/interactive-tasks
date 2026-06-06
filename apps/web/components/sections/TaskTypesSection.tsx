@@ -28,25 +28,31 @@ export async function TaskTypesSection() {
   return (
     <section className="py-24 px-4">
       <div className="mx-auto max-w-5xl">
-        <h2 className="text-3xl font-bold text-center mb-16">{t("title")}</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="text-center mb-16">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            What you can build
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold">{t("title")}</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {siteConfig.taskTypes.map((task) => {
             const Icon = taskIcons[task.slug] ?? FileText;
             const descKey = descriptionKeys[task.slug];
             if (!descKey) return null;
             return (
               <Link key={task.slug} href={`/tasks/${task.slug}`}>
-                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer">
-                  <CardHeader className="pb-2">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 mb-2">
-                      <Icon className="h-5 w-5 text-primary" />
+                <Card className="h-full p-2 hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 cursor-pointer">
+                  <CardHeader className="pb-2 pt-6 px-6">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 mb-3">
+                      <Icon className="h-6 w-6 text-primary" />
                     </div>
-                    <CardTitle className="text-base">
+                    <CardTitle className="text-lg">
                       {task.label[locale]}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">
+                  <CardContent className="px-6 pb-6">
+                    <p className="text-muted-foreground leading-relaxed">
                       {t(descKey)}
                     </p>
                   </CardContent>

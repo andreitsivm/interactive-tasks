@@ -13,10 +13,13 @@ export async function DemoSection() {
   const t = await getTranslations("demo");
 
   return (
-    <section className="py-24 px-4 bg-muted/40">
+    <section className="py-24 px-4 bg-muted/60">
       <div className="mx-auto max-w-5xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">{t("title")}</h2>
+        <div className="text-center mb-16">
+          <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            Live demo
+          </p>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-3">{t("title")}</h2>
           <p className="text-muted-foreground">{t("subtitle")}</p>
         </div>
 
@@ -79,22 +82,22 @@ export async function DemoSection() {
               <div className="space-y-4 text-sm">
                 <p className="leading-relaxed">
                   The dog{" "}
-                  <span className="inline-block min-w-[80px] border-b-2 border-primary text-center font-medium text-primary">
+                  <span className="inline-block min-w-20 border-b-2 border-primary text-center font-medium text-primary">
                     jumped
                   </span>{" "}
                   over the fence and{" "}
-                  <span className="inline-block min-w-[80px] border-b-2 border-muted-foreground text-center text-muted-foreground">
+                  <span className="inline-block min-w-20 border-b-2 border-muted-foreground text-center text-muted-foreground">
                     ______
                   </span>{" "}
                   into the garden.
                 </p>
                 <p className="leading-relaxed">
                   She{" "}
-                  <span className="inline-block min-w-[80px] border-b-2 border-muted-foreground text-center text-muted-foreground">
+                  <span className="inline-block min-w-20 border-b-2 border-muted-foreground text-center text-muted-foreground">
                     ______
                   </span>{" "}
                   the letter and put it in the{" "}
-                  <span className="inline-block min-w-[80px] border-b-2 border-primary text-center font-medium text-primary">
+                  <span className="inline-block min-w-20 border-b-2 border-primary text-center font-medium text-primary">
                     envelope
                   </span>
                   .
