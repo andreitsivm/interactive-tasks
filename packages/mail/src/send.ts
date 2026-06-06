@@ -1,12 +1,12 @@
-import { resend } from "./client.js";
-import { renderOtpEmail } from "./render/otp.js";
-import { renderWelcomeEmail } from "./render/welcome.js";
+import { getResend } from "./client";
+import { renderOtpEmail } from "./render/otp";
+import { renderWelcomeEmail } from "./render/welcome";
 
 const FROM = process.env.MAIL_FROM ?? "noreply@example.com";
 
 export async function sendOtpEmail(to: string, code: string): Promise<void> {
   const html = await renderOtpEmail(code);
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: "Your sign-in code",
@@ -19,7 +19,7 @@ export async function sendWelcomeEmail(
   name: string,
 ): Promise<void> {
   const html = await renderWelcomeEmail(name);
-  await resend.emails.send({
+  await getResend().emails.send({
     from: FROM,
     to,
     subject: "Welcome to InteractiveTasks",

@@ -1,5 +1,5 @@
-import type { IUser } from "./user.js";
-import type { UserRole, Permission } from "./user.js";
+import type { IUser } from "./user";
+import type { UserRole, Permission } from "./user";
 
 export interface IJwtPayload {
   sub: string;

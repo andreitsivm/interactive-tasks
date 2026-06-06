@@ -1,5 +1,5 @@
-export { sendOtpEmail, sendWelcomeEmail } from "./send.js";
-export { renderOtpEmail } from "./render/otp.js";
-export { renderWelcomeEmail } from "./render/welcome.js";
-export { OtpEmail } from "./templates/otp.js";
-export { WelcomeEmail } from "./templates/welcome.js";
+export { sendOtpEmail, sendWelcomeEmail } from "./send";
+export { renderOtpEmail } from "./render/otp";
+export { renderWelcomeEmail } from "./render/welcome";
+export { OtpEmail } from "./templates/otp";
+export { WelcomeEmail } from "./templates/welcome";

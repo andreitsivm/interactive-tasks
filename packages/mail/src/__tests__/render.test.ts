@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { renderOtpEmail } from "../render/otp.js";
-import { renderWelcomeEmail } from "../render/welcome.js";
+import { renderOtpEmail } from "../render/otp";
+import { renderWelcomeEmail } from "../render/welcome";
 
 describe("renderOtpEmail", () => {
   it("returns an HTML string containing the code", async () => {

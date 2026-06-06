@@ -1,1 +1,1 @@
-export type { IOtpRequest, IOtpVerifyRequest } from "./otp.js";
+export type { IOtpRequest, IOtpVerifyRequest } from "./otp";
