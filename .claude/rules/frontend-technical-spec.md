@@ -16,8 +16,8 @@ TypeScript-based React application implementation. Architecture patterns should 
 ```typescript
 // Build tool environment variables (public values only)
 const config = {
-  apiUrl: import.meta.env.API_URL || 'http://localhost:3000',
-  appName: import.meta.env.APP_NAME || 'My App',
+  apiUrl: import.meta.env.API_URL || "http://localhost:3000",
+  appName: import.meta.env.APP_NAME || "My App",
 };
 
 // Does not work in frontend
@@ -40,7 +40,7 @@ const apiKey = import.meta.env.API_KEY;
 const response = await fetch(`https://api.example.com/data?key=${apiKey}`);
 
 // Correct: Backend manages secrets, frontend accesses via proxy
-const response = await fetch('/api/data'); // Backend handles API key authentication
+const response = await fetch("/api/data"); // Backend handles API key authentication
 ```
 
 ## Architecture Design
@@ -84,7 +84,7 @@ Maintain consistent data flow throughout the React application:
 
   ```typescript
   // Immutable state update
-  setUsers(prev => [...prev, newUser]);
+  setUsers((prev) => [...prev, newUser]);
 
   // Mutable state update (avoid)
   users.push(newUser);
@@ -103,7 +103,7 @@ async function fetchUser(id: string): Promise<User> {
   const data: unknown = await response.json();
 
   if (!isUser(data)) {
-    throw new Error('Invalid user data');
+    throw new Error("Invalid user data");
   }
 
   return data; // Type guaranteed as User
@@ -112,47 +112,27 @@ async function fetchUser(id: string): Promise<User> {
 
 ## Build and Testing
 
-Use the appropriate run command based on the `packageManager` field in package.json.
+Use `pnpm` from the workspace root or inside `apps/web/`.
 
-### Build Commands
+### Quality checks — run after every implementation
 
-- Auto-detect and execute the following from package.json scripts:
-  - Development server
-  - Production build
-  - Type check (no emit)
+These scripts exist in `apps/web/package.json`:
 
-### Testing Commands
+| Script        | Command            | Purpose                         |
+| ------------- | ------------------ | ------------------------------- |
+| `lint`        | `pnpm lint`        | ESLint (zero warnings allowed)  |
+| `check-types` | `pnpm check-types` | TypeScript + next-intl typegen  |
+| `build`       | `pnpm build`       | Production build (catches more) |
 
-- `test` - Run tests
-- `test:coverage` - Run tests with coverage
-- `test:coverage:fresh` - Run tests with coverage (fresh cache)
-- `test:safe` - Safe test execution (with auto cleanup)
-- `cleanup:processes` - Cleanup Vitest processes
+Run them in this order — a later step can surface errors the earlier one misses:
 
-### Quality Check Requirements
+```sh
+pnpm lint && pnpm check-types && pnpm build
+```
 
-Quality checks are mandatory upon implementation completion:
+### Testing
 
-**Phase 1-3: Basic Checks**
-
-- `check` - Biome (lint + format)
-- `build` - TypeScript build
-
-**Phase 4-5: Tests and Final Confirmation**
-
-- `test` - Test execution
-- `test:coverage:fresh` - Coverage measurement
-- `check:all` - Overall integrated check
-
-### Coverage Requirements
-
-- **Mandatory**: Unit test coverage must be 60% or higher
-- **Component-specific targets**:
-  - Atoms: 70% or higher
-  - Molecules: 65% or higher
-  - Organisms: 60% or higher
-  - Custom Hooks: 65% or higher
-  - Utils: 70% or higher
+A frontend test framework has not been set up yet. When it is added, document the scripts here. Do not invent or assume test script names — check `package.json` first.
 
 ### Non-functional Requirements
 

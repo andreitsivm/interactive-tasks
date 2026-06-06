@@ -17,4 +17,6 @@ Avoid generic AI-generated aesthetics:
 - Predictable layouts and component patterns
 - Cookie-cutter design that lacks context-specific character
 
-Interpret creatively and make unexpected choices that feel genuinely designed for the context. Vary between light and dark themes, different fonts, different aesthetics. You still tend to converge on common choices (Space Grotesk, for example) across generations. Avoid this: it is critical that you think outside the box!
+When adding to an existing codebase, audit the established design system first: check which fonts, CSS variables, color tokens, and component patterns are already in use, then extend those choices consistently. Apply fresh creative direction only when building a genuinely new section with no visual precedent in the codebase.
+
+When starting from scratch, make unexpected choices that feel genuinely designed for the context. You still tend to converge on common choices (Space Grotesk, Geist, slate palettes) across generations — avoid this by consciously considering what makes this specific product distinctive before picking anything. The goal is a coherent, recognisable system — not variation for its own sake.

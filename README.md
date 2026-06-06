@@ -19,6 +19,17 @@ packages/
 
 - Node.js ≥ 18
 - pnpm 9
+- [Claude Code](https://claude.ai/code) with [Superpowers](https://github.com/obra/superpowers) installed (required for AI-assisted development)
+
+## Claude Code skills setup
+
+This project pins its AI skills in `skills-lock.json`. After installing the Superpowers plugin from the Claude Code marketplace, sync the pinned skills:
+
+```sh
+claude skills sync
+```
+
+This installs the exact skill versions locked in `skills-lock.json` (Paddle, shadcn/ui, Vercel, NestJS, and others).
 
 ## Getting started
 
