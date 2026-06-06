@@ -1,4 +1,5 @@
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "@/i18n/routing";
 import { oauthProviders } from "@/config/auth";
 import { sendOtp } from "@/actions/auth/send-otp";
 
@@ -51,12 +52,12 @@ export default function SignInPage() {
               <span className="bg-background px-2">or</span>
             </div>
           </div>
-          <Link
+          <NextLink
             href="/api/auth/signin/google?callbackUrl=/dashboard"
             className="flex w-full items-center justify-center rounded-md border border-border bg-background py-2 text-sm font-medium hover:bg-muted transition-colors"
           >
             Continue with Google
-          </Link>
+          </NextLink>
         </>
       )}
 
