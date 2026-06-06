@@ -12,7 +12,10 @@ import { sendWelcomeEmail } from "@workspace/mail";
 import { getServerSession } from "next-auth/next";
 import type { AuthOptions, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
-import type { UserRole, IJwtPayload } from "@workspace/types";
+import type { UserRole, IJwtPayload, SubscriptionPlan } from "@workspace/types";
+
+const APP_URL = process.env.NEXTAUTH_URL;
+if (!APP_URL) throw new Error("NEXTAUTH_URL env var is required but not set");
 
 function hasRoles(
   user: User | AdapterUser,
@@ -20,6 +23,13 @@ function hasRoles(
   return (
     "roles" in user && Array.isArray((user as Record<string, unknown>).roles)
   );
+}
+
+function hasSubscriptionPlan(
+  user: User | AdapterUser,
+): user is (User | AdapterUser) & { subscriptionPlan: SubscriptionPlan } {
+  const plan = (user as unknown as Record<string, unknown>).subscriptionPlan;
+  return plan === "free" || plan === "starter" || plan === "pro";
 }
 
 function getJwtSecret(): Uint8Array {
@@ -78,7 +88,7 @@ export const authOptions: AuthOptions = {
           .returning();
 
         if (newUser) {
-          sendWelcomeEmail(email, newUser.name ?? email).catch(
+          sendWelcomeEmail(email, newUser.name ?? email, APP_URL).catch(
             (err: unknown) => {
               console.error("[auth] Failed to send welcome email:", err);
             },
@@ -103,6 +113,9 @@ export const authOptions: AuthOptions = {
         token.id = user.id ?? "";
         token.roles = (hasRoles(user) ? user.roles : ["member"]) as UserRole[];
         token.permissions = getRolePermissions(token.roles);
+        token.subscriptionPlan = hasSubscriptionPlan(user)
+          ? user.subscriptionPlan
+          : "free";
       }
       // Always keep accessToken fresh — NestJS passport-jwt verifies this
       const apiPayload: IJwtPayload = {
@@ -110,6 +123,7 @@ export const authOptions: AuthOptions = {
         email: token.email ?? "",
         roles: token.roles,
         permissions: token.permissions,
+        subscriptionPlan: token.subscriptionPlan,
       };
       token.accessToken = await signApiToken(apiPayload);
       return token;

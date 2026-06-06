@@ -19,6 +19,12 @@ export const users = pgTable("users", {
     .array()
     .$defaultFn(() => ["member"])
     .notNull(),
+  subscriptionPlan: text("subscription_plan")
+    .$type<"free" | "starter" | "pro">()
+    .default("free")
+    .notNull(),
+  paddleSubscriptionId: text("paddle_subscription_id"),
+  paddleCustomerId: text("paddle_customer_id"),
 });
 
 export const accounts = pgTable(

@@ -1,4 +1,4 @@
-import type { UserRole, Permission } from "@workspace/types";
+import type { UserRole, Permission, SubscriptionPlan } from "@workspace/types";
 
 declare module "next-auth" {
   interface Session {
@@ -19,5 +19,6 @@ declare module "next-auth/jwt" {
     roles: UserRole[];
     permissions: Permission[];
     accessToken: string;
+    subscriptionPlan: SubscriptionPlan;
   }
 }
