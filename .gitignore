@@ -41,3 +41,4 @@ post-log.json
 .claude/specs
 docs/superpowers/plans/
 docs/superpowers/specs/
+.playwright-mcp

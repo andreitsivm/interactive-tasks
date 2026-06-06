@@ -52,3 +52,12 @@ Resolve type errors properly — with generics, utility types (`ReturnType`, `Pa
 
 When working with library APIs (next-intl, Paddle, Radix, etc.), import and use the
 types the library exports rather than redeclaring them locally or casting around them.
+
+## Playwright
+
+- Save all screenshots and traces in `.playwright-mcp/` (git-ignored)
+- After implementing any task that touches UI or frontend, launch Playwright and visually
+  validate the result before marking the task done
+- Check: layout is not broken, text is readable, dark and light themes both look correct,
+  UA and EN locales both render without missing translations
+- If a screenshot reveals a visual bug, fix it in the same task — do not defer it
