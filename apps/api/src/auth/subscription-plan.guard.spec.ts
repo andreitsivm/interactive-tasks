@@ -8,7 +8,7 @@ import type {
   SubscriptionPlan,
 } from '@workspace/types';
 
-function mockContext(plan: SubscriptionPlan): ExecutionContext {
+function mockContext(plan: SubscriptionPlan | null): ExecutionContext {
   const user: Partial<IJwtPayload> = {
     sub: 'user-1',
     email: 'test@example.com',
@@ -33,27 +33,32 @@ describe('SubscriptionPlanGuard', () => {
 
   it('allows access when no plan is required', () => {
     jest.spyOn(reflector, 'get').mockReturnValue(undefined);
-    expect(guard.canActivate(mockContext('free'))).toBe(true);
+    expect(guard.canActivate(mockContext(null))).toBe(true);
   });
 
-  it('allows free user to access free endpoint', () => {
-    jest.spyOn(reflector, 'get').mockReturnValue('free');
-    expect(guard.canActivate(mockContext('free'))).toBe(true);
+  it('denies access when subscriptionPlan is null', () => {
+    jest.spyOn(reflector, 'get').mockReturnValue('trial');
+    expect(guard.canActivate(mockContext(null))).toBe(false);
   });
 
-  it('allows pro user to access starter endpoint', () => {
-    jest.spyOn(reflector, 'get').mockReturnValue('starter');
-    expect(guard.canActivate(mockContext('pro'))).toBe(true);
+  it('denies expired user from trial endpoint', () => {
+    jest.spyOn(reflector, 'get').mockReturnValue('trial');
+    expect(guard.canActivate(mockContext('expired'))).toBe(false);
   });
 
-  it('denies free user from starter endpoint', () => {
-    jest.spyOn(reflector, 'get').mockReturnValue('starter');
-    expect(guard.canActivate(mockContext('free'))).toBe(false);
+  it('allows trial user to access trial endpoint', () => {
+    jest.spyOn(reflector, 'get').mockReturnValue('trial');
+    expect(guard.canActivate(mockContext('trial'))).toBe(true);
   });
 
-  it('denies starter user from pro endpoint', () => {
+  it('denies trial user from pro endpoint', () => {
     jest.spyOn(reflector, 'get').mockReturnValue('pro');
-    expect(guard.canActivate(mockContext('starter'))).toBe(false);
+    expect(guard.canActivate(mockContext('trial'))).toBe(false);
+  });
+
+  it('allows pro user to access trial endpoint', () => {
+    jest.spyOn(reflector, 'get').mockReturnValue('trial');
+    expect(guard.canActivate(mockContext('pro'))).toBe(true);
   });
 
   it('allows pro user to access pro endpoint', () => {
