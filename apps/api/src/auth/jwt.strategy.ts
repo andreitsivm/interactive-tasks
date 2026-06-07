@@ -6,9 +6,13 @@ import type { IJwtPayload } from '@workspace/types';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    const secret = process.env.AUTH_SECRET;
+    if (!secret) {
+      throw new Error('[auth] AUTH_SECRET environment variable is not set');
+    }
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.AUTH_SECRET,
+      secretOrKey: secret,
     });
   }
 

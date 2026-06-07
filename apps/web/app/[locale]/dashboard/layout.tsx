@@ -26,22 +26,15 @@ export default async function DashboardLayout({
     }
   }
 
-  return (
-    <>
-      {isExpired && (
-        <ExpiredInterstitial
-          userEmail={session.user.email ?? ""}
-          userId={session.user.id}
-          priceId={directPriceId}
-        />
-      )}
-      <div
-        className={
-          isExpired ? "blur-sm pointer-events-none select-none" : undefined
-        }
-      >
-        {children}
-      </div>
-    </>
-  );
+  if (isExpired) {
+    return (
+      <ExpiredInterstitial
+        userEmail={session.user.email ?? ""}
+        userId={session.user.id}
+        priceId={directPriceId}
+      />
+    );
+  }
+
+  return <>{children}</>;
 }
