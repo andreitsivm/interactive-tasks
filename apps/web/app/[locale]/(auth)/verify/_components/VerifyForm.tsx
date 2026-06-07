@@ -8,9 +8,10 @@ import type { VerifyOtpResult } from "@/actions/auth/verify-otp";
 interface VerifyFormProps {
   email: string;
   mode: string;
+  callbackUrl?: string;
 }
 
-export function VerifyForm({ email, mode }: VerifyFormProps) {
+export function VerifyForm({ email, mode, callbackUrl }: VerifyFormProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const hiddenRef = useRef<HTMLInputElement>(null);
 
@@ -28,11 +29,12 @@ export function VerifyForm({ email, mode }: VerifyFormProps) {
     if ("preVerifiedToken" in state) {
       void signIn("credentials", {
         token: state.preVerifiedToken,
-        callbackUrl: mode === "signup" ? "/checkout" : "/dashboard",
+        callbackUrl:
+          callbackUrl ?? (mode === "signup" ? "/checkout" : "/dashboard"),
         redirect: true,
       });
     }
-  }, [state, mode]);
+  }, [state, mode, callbackUrl]);
 
   function updateHidden() {
     const value = inputRefs.current.map((el) => el?.value ?? "").join("");

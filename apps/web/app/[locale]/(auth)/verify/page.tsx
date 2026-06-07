@@ -2,11 +2,15 @@ import { Link } from "@/i18n/routing";
 import { VerifyForm } from "./_components/VerifyForm";
 
 interface Props {
-  searchParams: Promise<{ email?: string; mode?: string }>;
+  searchParams: Promise<{
+    email?: string;
+    mode?: string;
+    callbackUrl?: string;
+  }>;
 }
 
 export default async function VerifyPage({ searchParams }: Props) {
-  const { email = "", mode = "signin" } = await searchParams;
+  const { email = "", mode = "signin", callbackUrl } = await searchParams;
 
   return (
     <div className="space-y-6">
@@ -18,7 +22,7 @@ export default async function VerifyPage({ searchParams }: Props) {
         </p>
       </div>
 
-      <VerifyForm email={email} mode={mode} />
+      <VerifyForm email={email} mode={mode} callbackUrl={callbackUrl} />
 
       <p className="text-center text-sm text-muted-foreground">
         Didn&apos;t receive a code?{" "}

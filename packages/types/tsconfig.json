@@ -2,9 +2,7 @@
   "extends": "@workspace/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "./src",
-    "module": "ESNext",
-    "moduleResolution": "bundler"
+    "rootDir": "./src"
   },
   "include": ["src"]
 }

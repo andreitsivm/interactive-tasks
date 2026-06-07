@@ -51,6 +51,8 @@ export async function sendOtp(
     };
   }
 
+  const callbackUrl = String(formData.get("callbackUrl") ?? "").trim();
+
   const code = generateOtp();
   const hash = hashOtp(code);
 
@@ -61,7 +63,16 @@ export async function sendOtp(
   pipeline.expire(`otp:send_count:${email}`, SEND_COUNT_TTL);
   await pipeline.exec();
 
-  await sendOtpEmail(email, code);
+  try {
+    await sendOtpEmail(email, code);
+  } catch (err: unknown) {
+    await redis.del(`otp:${email}`, `otp:cooldown:${email}`);
+    await redis.decr(`otp:send_count:${email}`);
+    console.error("[auth] Failed to send OTP email:", err);
+    return { error: "Couldn't send the code. Please try again." };
+  }
 
-  redirect(`/verify?email=${encodeURIComponent(email)}&mode=${mode}`);
+  const params = new URLSearchParams({ email, mode });
+  if (callbackUrl) params.set("callbackUrl", callbackUrl);
+  redirect(`/verify?${params.toString()}`);
 }

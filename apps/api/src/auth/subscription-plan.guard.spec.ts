@@ -1,4 +1,4 @@
-import { SubscriptionPlanGuard, RequiresPlan } from './subscription-plan.guard';
+import { SubscriptionPlanGuard } from './subscription-plan.guard';
 import { Reflector } from '@nestjs/core';
 import { ExecutionContext } from '@nestjs/common';
 import type {

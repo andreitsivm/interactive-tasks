@@ -8,7 +8,13 @@ async function sendOtpAction(formData: FormData) {
   await sendOtp(null, formData);
 }
 
-export default function SignInPage() {
+interface Props {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}
+
+export default async function SignInPage({ searchParams }: Props) {
+  const { callbackUrl } = await searchParams;
+
   return (
     <div className="space-y-6">
       <div>
@@ -20,6 +26,9 @@ export default function SignInPage() {
 
       <form action={sendOtpAction} className="space-y-4">
         <input type="hidden" name="mode" value="signin" />
+        {callbackUrl && (
+          <input type="hidden" name="callbackUrl" value={callbackUrl} />
+        )}
         <div>
           <label htmlFor="email" className="block text-sm font-medium mb-1">
             Email

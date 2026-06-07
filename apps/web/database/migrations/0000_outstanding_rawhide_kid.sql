@@ -19,7 +19,7 @@ CREATE TABLE "users" (
 	"email" text NOT NULL,
 	"emailVerified" timestamp,
 	"image" text,
-	"roles" text[] NOT NULL,
+	"roles" text[] DEFAULT '{}'::text[] NOT NULL,
 	"subscription_plan" text DEFAULT 'free' NOT NULL,
 	"paddle_subscription_id" text,
 	"paddle_customer_id" text,
