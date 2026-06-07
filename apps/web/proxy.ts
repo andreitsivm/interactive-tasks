@@ -6,7 +6,7 @@ import type { NextRequestWithAuth } from "next-auth/middleware";
 
 const intlMiddleware = createMiddleware(routing);
 
-const protectedPaths = ["/dashboard"];
+const protectedPaths = ["/dashboard", "/checkout"];
 const authPaths = ["/sign-in", "/sign-up", "/verify"];
 
 export const proxy = withAuth(
@@ -41,5 +41,5 @@ export const proxy = withAuth(
 );
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|.*\\..*).*)"],
 };
