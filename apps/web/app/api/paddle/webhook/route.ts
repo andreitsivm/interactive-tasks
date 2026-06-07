@@ -36,10 +36,10 @@ async function resolvePlanFromPriceId(
     console.warn(
       "[webhook] No catalog match for priceId",
       priceId,
-      "— defaulting to free",
+      "— defaulting to expired",
     );
   }
-  return match?.plan ?? "free";
+  return match?.plan ?? "expired";
 }
 
 async function getUserIdByCustomer(
@@ -59,12 +59,16 @@ async function syncSubscription(
   event: SubscriptionEvent,
 ): Promise<void> {
   const sub = event.data;
-  const isCanceled = sub.status === "canceled";
   const priceId = sub.items[0]?.price?.id ?? "";
 
-  const plan: SubscriptionPlan = isCanceled
-    ? "free"
-    : await resolvePlanFromPriceId(priceId);
+  let plan: SubscriptionPlan;
+  if (sub.status === "canceled" || sub.status === "past_due") {
+    plan = "expired";
+  } else if (sub.status === "trialing") {
+    plan = "trial";
+  } else {
+    plan = await resolvePlanFromPriceId(priceId);
+  }
 
   const userId = await getUserIdByCustomer(paddle, sub.customerId);
   if (!userId) {
@@ -77,6 +81,8 @@ async function syncSubscription(
   const currentPeriodEnd = sub.currentBillingPeriod?.endsAt
     ? new Date(sub.currentBillingPeriod.endsAt)
     : null;
+
+  const isInactive = sub.status === "canceled" || sub.status === "past_due";
 
   await db.transaction(async (tx) => {
     await tx
@@ -105,7 +111,7 @@ async function syncSubscription(
       .update(users)
       .set({
         subscriptionPlan: plan,
-        paddleSubscriptionId: isCanceled ? null : sub.id,
+        paddleSubscriptionId: isInactive ? null : sub.id,
         paddleCustomerId: sub.customerId,
       })
       .where(eq(users.id, userId));
