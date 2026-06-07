@@ -11,7 +11,8 @@ export async function PricingSection() {
   let catalog: CatalogItem[] = [];
   try {
     catalog = await fetchCatalog();
-  } catch {
+  } catch (err) {
+    console.error("[pricing] Failed to fetch Paddle catalog:", err);
     catalog = [];
   }
 

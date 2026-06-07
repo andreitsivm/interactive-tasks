@@ -52,7 +52,11 @@ export function PricingCards({
     initializePaddle({
       environment: siteConfig.paddle.environment,
       token: siteConfig.paddle.clientToken,
-    }).then(setPaddle);
+    })
+      .then(setPaddle)
+      .catch((err: unknown) => {
+        console.error("[pricing] Paddle init failed:", err);
+      });
   }, []);
 
   const handleSubscribe = (priceId: string) => {
