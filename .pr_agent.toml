@@ -1,0 +1,25 @@
+[github_action_runner]
+auto_review = true
+
+[pr_reviewer]
+# On synchronize events, review only commits added since the last review
+incremental = true
+
+[ignore]
+# Review only source code — skip config, docs, and tooling files
+glob = [
+  ".claude/**",
+  ".github/**",
+  "docs/**",
+  "**/*.md",
+  "**/*.toml",
+  "turbo.json",
+  ".gitignore",
+  ".env*",
+  "pnpm-lock.yaml",
+  "pnpm-lock.yaml",
+]
+
+[config]
+# Cap token usage per review
+max_model_tokens = 40000
