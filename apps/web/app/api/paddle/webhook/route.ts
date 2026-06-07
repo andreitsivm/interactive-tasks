@@ -31,7 +31,15 @@ async function resolvePlanFromPriceId(
   priceId: string,
 ): Promise<SubscriptionPlan> {
   const catalog = await fetchCatalog();
-  return catalog.find((item) => item.priceId === priceId)?.plan ?? "free";
+  const match = catalog.find((item) => item.priceId === priceId);
+  if (!match) {
+    console.warn(
+      "[webhook] No catalog match for priceId",
+      priceId,
+      "— defaulting to free",
+    );
+  }
+  return match?.plan ?? "free";
 }
 
 async function getUserIdByCustomer(
@@ -60,8 +68,7 @@ async function syncSubscription(
 
   const userId = await getUserIdByCustomer(paddle, sub.customerId);
   if (!userId) {
-    console.error("[webhook] No user found for customer", sub.customerId);
-    return;
+    throw new Error(`[webhook] No user found for customer ${sub.customerId}`);
   }
 
   const currentPeriodStart = sub.currentBillingPeriod?.startsAt
@@ -71,36 +78,38 @@ async function syncSubscription(
     ? new Date(sub.currentBillingPeriod.endsAt)
     : null;
 
-  await db
-    .insert(subscriptions)
-    .values({
-      userId,
-      paddleSubscriptionId: sub.id,
-      paddleCustomerId: sub.customerId,
-      plan,
-      status: sub.status,
-      currentPeriodStart,
-      currentPeriodEnd,
-    })
-    .onConflictDoUpdate({
-      target: subscriptions.paddleSubscriptionId,
-      set: {
+  await db.transaction(async (tx) => {
+    await tx
+      .insert(subscriptions)
+      .values({
+        userId,
+        paddleSubscriptionId: sub.id,
+        paddleCustomerId: sub.customerId,
         plan,
         status: sub.status,
         currentPeriodStart,
         currentPeriodEnd,
-        updatedAt: new Date(),
-      },
-    });
+      })
+      .onConflictDoUpdate({
+        target: subscriptions.paddleSubscriptionId,
+        set: {
+          plan,
+          status: sub.status,
+          currentPeriodStart,
+          currentPeriodEnd,
+          updatedAt: new Date(),
+        },
+      });
 
-  await db
-    .update(users)
-    .set({
-      subscriptionPlan: plan,
-      paddleSubscriptionId: isCanceled ? null : sub.id,
-      paddleCustomerId: sub.customerId,
-    })
-    .where(eq(users.id, userId));
+    await tx
+      .update(users)
+      .set({
+        subscriptionPlan: plan,
+        paddleSubscriptionId: isCanceled ? null : sub.id,
+        paddleCustomerId: sub.customerId,
+      })
+      .where(eq(users.id, userId));
+  });
 }
 
 export async function POST(req: NextRequest) {
