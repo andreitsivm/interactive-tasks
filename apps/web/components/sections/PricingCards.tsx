@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/config/site";
-import type { PaddlePrice } from "@/lib/paddle";
+import type { CatalogItem } from "@/lib/paddle";
 import type { Locale } from "@/i18n/routing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ declare global {
 }
 
 interface PricingCardsProps {
-  prices: PaddlePrice[];
+  prices: CatalogItem[];
   locale: Locale;
 }
 
@@ -140,7 +140,7 @@ export function PricingCards({ prices }: PricingCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4">
       {prices.map((price, idx) => (
-        <div key={price.id} className="relative">
+        <div key={price.priceId} className="relative">
           {idx === 1 && (
             <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
               <span className="rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
@@ -152,11 +152,11 @@ export function PricingCards({ prices }: PricingCardsProps) {
             className={`p-2 ${idx === 1 ? "border-primary shadow-lg shadow-primary/10" : ""}`}
           >
             <CardHeader className="pt-6 px-6">
-              <CardTitle className="text-lg">{price.product.name}</CardTitle>
+              <CardTitle className="text-lg">{price.productName}</CardTitle>
               <div className="mt-2">
                 <span className="text-4xl font-bold">
-                  {(parseFloat(price.unitPrice.amount) / 100).toFixed(0)}{" "}
-                  {price.unitPrice.currencyCode}
+                  {(parseFloat(price.amount) / 100).toFixed(0)}{" "}
+                  {price.currencyCode}
                 </span>
                 <span className="text-base font-normal text-muted-foreground ml-1">
                   {t("perMonth")}
@@ -165,12 +165,12 @@ export function PricingCards({ prices }: PricingCardsProps) {
             </CardHeader>
             <CardContent className="px-6 pb-6">
               <p className="text-sm text-muted-foreground mb-4">
-                {price.product.description}
+                {price.productDescription}
               </p>
               <Button
                 className="w-full"
                 variant={idx === 1 ? "default" : "outline"}
-                onClick={() => handleSubscribe(price.id)}
+                onClick={() => handleSubscribe(price.priceId)}
               >
                 {t("subscribe")}
               </Button>

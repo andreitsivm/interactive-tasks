@@ -1,25 +1,57 @@
-export interface PaddlePrice {
-  id: string;
-  description: string;
-  unitPrice: { amount: string; currencyCode: string };
-  product: { name: string; description: string };
+import { Paddle, Environment } from "@paddle/paddle-node-sdk";
+import type { SubscriptionPlan } from "@workspace/types";
+
+export interface CatalogItem {
+  priceId: string;
+  productName: string;
+  productDescription: string | null;
+  amount: string;
+  currencyCode: string;
+  billingInterval: "month" | "year" | null;
+  plan: SubscriptionPlan;
 }
 
-export async function fetchPaddlePrices(
-  priceIds: string[],
-): Promise<PaddlePrice[]> {
-  if (priceIds.length === 0) return [];
+function getPaddleClient(): Paddle {
+  const apiKey = process.env.PADDLE_API_KEY;
+  if (!apiKey) throw new Error("PADDLE_API_KEY is not set");
+  const environment =
+    process.env.NEXT_PUBLIC_PADDLE_ENV === "production"
+      ? Environment.production
+      : Environment.sandbox;
+  return new Paddle(apiKey, { environment });
+}
 
-  const res = await fetch(
-    `https://api.paddle.com/prices?ids=${priceIds.join(",")}&include=product`,
-    {
-      headers: { Authorization: `Bearer ${process.env.PADDLE_API_KEY}` },
-      next: { revalidate: 3600 },
-    },
-  );
+function isValidPlan(value: unknown): value is SubscriptionPlan {
+  return value === "free" || value === "starter" || value === "pro";
+}
 
-  if (!res.ok) throw new Error(`Paddle prices fetch failed: ${res.status}`);
+export async function fetchCatalog(): Promise<CatalogItem[]> {
+  const paddle = getPaddleClient();
+  const items: CatalogItem[] = [];
 
-  const json: { data: PaddlePrice[] } = await res.json();
-  return json.data;
+  for await (const product of paddle.products.list({
+    include: ["prices"],
+    status: ["active"],
+  })) {
+    const plan = (product.customData as Record<string, unknown> | null)?.plan;
+    if (!isValidPlan(plan)) continue;
+
+    for (const price of product.prices ?? []) {
+      if (price.status !== "active") continue;
+
+      const interval = price.billingCycle?.interval;
+      items.push({
+        priceId: price.id,
+        productName: product.name,
+        productDescription: product.description ?? null,
+        amount: price.unitPrice.amount,
+        currencyCode: price.unitPrice.currencyCode,
+        billingInterval:
+          interval === "month" || interval === "year" ? interval : null,
+        plan,
+      });
+    }
+  }
+
+  return items.sort((a, b) => Number(a.amount) - Number(b.amount));
 }

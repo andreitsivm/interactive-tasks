@@ -1,20 +1,15 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Script from "next/script";
-import { fetchPaddlePrices, type PaddlePrice } from "@/lib/paddle";
+import { fetchCatalog, type CatalogItem } from "@/lib/paddle";
 import { PricingCards } from "./PricingCards";
-
-const PRICE_IDS = [
-  process.env.PADDLE_PRICE_ID_STARTER,
-  process.env.PADDLE_PRICE_ID_PRO,
-].filter((id): id is string => Boolean(id));
 
 export async function PricingSection() {
   const t = await getTranslations("pricing");
   const locale = await getLocale();
 
-  let prices: PaddlePrice[] = [];
+  let prices: CatalogItem[] = [];
   try {
-    prices = PRICE_IDS.length > 0 ? await fetchPaddlePrices(PRICE_IDS) : [];
+    prices = await fetchCatalog();
   } catch {
     prices = [];
   }
