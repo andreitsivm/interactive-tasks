@@ -17,9 +17,12 @@ glob = [
   ".gitignore",
   ".env*",
   "pnpm-lock.yaml",
-  "pnpm-lock.yaml",
 ]
 
+[pr_code_suggestions]
+# Fewer suggestions = fewer tokens per chunk
+num_code_suggestions_per_chunk = 2
+
 [config]
-# Cap token usage per review
 max_model_tokens = 40000
+model = "gpt-5-nano"
