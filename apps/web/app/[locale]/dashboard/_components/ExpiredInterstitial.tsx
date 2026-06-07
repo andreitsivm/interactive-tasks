@@ -37,18 +37,24 @@ export function ExpiredInterstitial({
       items: [{ priceId, quantity: 1 }],
       customer: { email: userEmail },
       customData: { userId },
+      settings: { successUrl: `${window.location.origin}/dashboard` },
     });
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
       <div className="bg-card border border-border rounded-xl p-8 max-w-md w-full mx-4 text-center shadow-xl">
-        <h2 className="text-2xl font-bold mb-3">Your trial has ended</h2>
+        <h2 className="text-2xl font-bold mb-3">Your subscription has ended</h2>
         <p className="text-muted-foreground mb-6">
-          Upgrade to Pro to continue accessing all features.
+          Upgrade to Pro to regain access to all features.
         </p>
-        <Button size="lg" className="w-full" onClick={handleUpgrade}>
-          Upgrade to Pro
+        <Button
+          size="lg"
+          className="w-full"
+          onClick={handleUpgrade}
+          disabled={!paddle || !priceId}
+        >
+          {paddle ? "Upgrade to Pro" : "Loading…"}
         </Button>
       </div>
     </div>
