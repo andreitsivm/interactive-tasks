@@ -93,6 +93,9 @@ importers:
       jest:
         specifier: ^30.0.0
         version: 30.4.2(@types/node@24.13.0)(ts-node@10.9.2(@swc/core@1.15.40(@swc/helpers@0.5.15))(@types/node@24.13.0)(typescript@5.9.2))
+      multer:
+        specifier: ^2.1.1
+        version: 2.1.1
       prettier:
         specifier: ^3.4.2
         version: 3.7.4
