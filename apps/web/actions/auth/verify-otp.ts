@@ -46,7 +46,7 @@ export async function verifyOtp(
     return { error: "Incorrect code. Please try again." };
   }
 
-  await redis.del(`otp:${email}`);
+  await redis.del(`otp:${email}`, `otp:attempts:${email}`);
 
   const preVerifiedToken = await signPreVerifiedToken(email, mode);
 

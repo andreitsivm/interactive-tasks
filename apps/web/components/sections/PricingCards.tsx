@@ -61,7 +61,7 @@ export function PricingCards({
 
   const handleSubscribe = (priceId: string) => {
     if (!userEmail || !userId) {
-      router.push("/auth/signin?callbackUrl=/pricing");
+      router.push(`/sign-in?callbackUrl=${encodeURIComponent("/#pricing")}`);
       return;
     }
     paddle?.Checkout.open({

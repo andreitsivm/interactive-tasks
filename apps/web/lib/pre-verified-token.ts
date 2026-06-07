@@ -1,7 +1,11 @@
 import { SignJWT, jwtVerify } from "jose";
 
 function getSecret(): Uint8Array {
-  return new TextEncoder().encode(process.env.AUTH_SECRET!);
+  const secret = process.env.AUTH_SECRET;
+  if (!secret) {
+    throw new Error("[auth] AUTH_SECRET environment variable is not set");
+  }
+  return new TextEncoder().encode(secret);
 }
 
 export async function signPreVerifiedToken(
