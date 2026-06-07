@@ -29,7 +29,7 @@ function hasSubscriptionPlan(
   user: User | AdapterUser,
 ): user is (User | AdapterUser) & { subscriptionPlan: SubscriptionPlan } {
   const plan = (user as unknown as Record<string, unknown>).subscriptionPlan;
-  return plan === "free" || plan === "starter" || plan === "pro";
+  return plan === "trial" || plan === "pro" || plan === "expired";
 }
 
 function getJwtSecret(): Uint8Array {
@@ -115,7 +115,7 @@ export const authOptions: AuthOptions = {
         token.permissions = getRolePermissions(token.roles);
         token.subscriptionPlan = hasSubscriptionPlan(user)
           ? user.subscriptionPlan
-          : "free";
+          : null;
       }
       // Always keep accessToken fresh — NestJS passport-jwt verifies this
       const apiPayload: IJwtPayload = {
@@ -132,7 +132,7 @@ export const authOptions: AuthOptions = {
       session.user.id = token.id;
       session.user.roles = token.roles;
       session.user.permissions = token.permissions;
-      session.user.subscriptionPlan = token.subscriptionPlan ?? "free";
+      session.user.subscriptionPlan = token.subscriptionPlan ?? null;
       session.accessToken = token.accessToken;
       return session;
     },
