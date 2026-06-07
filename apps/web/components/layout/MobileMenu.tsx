@@ -13,7 +13,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
 
   return (
     <nav className="flex flex-col gap-6 p-6">
-      <Link href="/pricing" onClick={onClose} className="text-lg font-medium">
+      <Link href="/#pricing" onClick={onClose} className="text-lg font-medium">
         {t("pricing")}
       </Link>
       <Link href="/faq" onClick={onClose} className="text-lg font-medium">
@@ -35,7 +35,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
         ))}
       </div>
       <Button asChild onClick={onClose}>
-        <Link href="/pricing">{t("getStarted")}</Link>
+        <Link href="/sign-up">{t("getStarted")}</Link>
       </Button>
       <div className="flex items-center gap-3">
         <LocaleSwitcher />

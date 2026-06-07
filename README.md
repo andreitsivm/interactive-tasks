@@ -10,9 +10,11 @@ apps/
   api/   — NestJS 11 backend
 
 packages/
-  ui/                  — shared React component library (@workspace/ui)
-  eslint-config/       — shared ESLint config (@workspace/eslint-config)
-  typescript-config/   — shared tsconfig (@workspace/typescript-config)
+  types/             — shared TypeScript interfaces and enums (@workspace/types)
+  mail/              — react-email templates + Resend send helpers (@workspace/mail)
+  ui/                — shared React component library (@workspace/ui)
+  eslint-config/     — shared ESLint config (@workspace/eslint-config)
+  typescript-config/ — shared tsconfig bases (@workspace/typescript-config)
 ```
 
 ## Prerequisites
@@ -44,6 +46,24 @@ cp apps/web/.env.example apps/web/.env.local
 cp apps/api/.env.example apps/api/.env
 ```
 
+**Required values to fill in before starting:**
+
+| Variable         | Where                  | Purpose                                 |
+| ---------------- | ---------------------- | --------------------------------------- |
+| `AUTH_SECRET`    | web + api (must match) | JWT signing — `openssl rand -base64 32` |
+| `DATABASE_URL`   | web + api              | Railway Postgres connection string      |
+| `REDIS_URL`      | web                    | Railway Redis connection string         |
+| `RESEND_API_KEY` | web                    | Resend API key for transactional email  |
+| `MAIL_FROM`      | web                    | Verified sender address in Resend       |
+
+Google OAuth and Paddle vars are optional for local development. The sign-in button and payment UI hide automatically when those vars are absent.
+
+After filling `DATABASE_URL`, push the schema:
+
+```sh
+pnpm --filter=web db:push
+```
+
 ## Development
 
 Run all apps in watch mode:
@@ -61,17 +81,16 @@ pnpm dev --filter=api
 
 The web app starts on [http://localhost:3000](http://localhost:3000).
 
+Preview email templates:
+
+```sh
+pnpm --filter=@workspace/mail preview
+```
+
 ## Build
 
 ```sh
 pnpm build
-```
-
-Build a single app:
-
-```sh
-pnpm build --filter=web
-pnpm build --filter=api
 ```
 
 ## Type checking & linting
@@ -83,11 +102,14 @@ pnpm lint
 
 ## Tech stack
 
-| Layer    | Technology                                       |
-| -------- | ------------------------------------------------ |
-| Frontend | Next.js 16, React 19, Tailwind CSS v4, shadcn/ui |
-| i18n     | next-intl (en / ua)                              |
-| Backend  | NestJS 11                                        |
-| Payments | Paddle (sandbox by default)                      |
-| Monorepo | Turborepo + pnpm workspaces                      |
-| Language | TypeScript throughout                            |
+| Layer    | Technology                                                 |
+| -------- | ---------------------------------------------------------- |
+| Frontend | Next.js 16, React 19, Tailwind CSS v4, shadcn/ui           |
+| Auth     | next-auth v4 (Email OTP + Google OAuth), Redis OTP storage |
+| i18n     | next-intl (en / ua)                                        |
+| Backend  | NestJS 11, passport-jwt                                    |
+| Database | PostgreSQL via Drizzle ORM                                 |
+| Email    | react-email + Resend                                       |
+| Payments | Paddle (sandbox by default)                                |
+| Monorepo | Turborepo + pnpm workspaces                                |
+| Language | TypeScript throughout                                      |

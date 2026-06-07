@@ -2,8 +2,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
-import { Onest } from "next/font/google";
-import { cn } from "@/lib/utils";
 import { buildMetadata } from "@/lib/metadata";
 import {
   buildOrganizationJsonLd,
@@ -13,13 +11,6 @@ import {
 import { JsonLd } from "@/components/JsonLd";
 import { routing } from "@/i18n/routing";
 import type { Locale } from "@/i18n/routing";
-import "../globals.css";
-
-const onest = Onest({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-sans",
-  display: "swap",
-});
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -40,24 +31,15 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html
-      lang={locale}
-      suppressHydrationWarning
-      className={cn("font-sans", onest.variable)}
-    >
-      <head>
-        {/* JSON-LD in <head> — React 19 warns about <script> in component bodies */}
-        <JsonLd schema={buildOrganizationJsonLd()} />
-        <JsonLd schema={buildWebSiteJsonLd()} />
-        <JsonLd schema={buildSoftwareAppJsonLd(locale as Locale)} />
-      </head>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <JsonLd schema={buildOrganizationJsonLd()} />
+      <JsonLd schema={buildWebSiteJsonLd()} />
+      <JsonLd schema={buildSoftwareAppJsonLd(locale as Locale)} />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </ThemeProvider>
+    </>
   );
 }
