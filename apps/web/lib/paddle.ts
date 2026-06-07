@@ -9,6 +9,7 @@ export interface CatalogItem {
   currencyCode: string;
   billingInterval: "month" | "year" | null;
   plan: SubscriptionPlan;
+  hasTrial: boolean;
 }
 
 function getPaddleClient(): Paddle {
@@ -22,7 +23,9 @@ function getPaddleClient(): Paddle {
 }
 
 function isValidPlan(value: unknown): value is SubscriptionPlan {
-  return value === "free" || value === "starter" || value === "pro";
+  // Only "pro" appears in Paddle product custom_data.
+  // "trial" and "expired" are internal states derived from subscription status.
+  return value === "pro";
 }
 
 export async function fetchCatalog(): Promise<CatalogItem[]> {
@@ -49,6 +52,7 @@ export async function fetchCatalog(): Promise<CatalogItem[]> {
         billingInterval:
           interval === "month" || interval === "year" ? interval : null,
         plan,
+        hasTrial: price.trialPeriod != null,
       });
     }
   }
