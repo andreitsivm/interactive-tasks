@@ -19,12 +19,12 @@ export const users = pgTable("users", {
     .array()
     .$defaultFn(() => ["member"])
     .notNull(),
-  subscriptionPlan: text("subscription_plan")
-    .$type<"free" | "starter" | "pro">()
-    .default("free")
-    .notNull(),
+  subscriptionPlan: text("subscription_plan").$type<
+    "trial" | "pro" | "expired"
+  >(),
   paddleSubscriptionId: text("paddle_subscription_id"),
   paddleCustomerId: text("paddle_customer_id"),
+  trialTokensUsed: integer("trial_tokens_used").default(0).notNull(),
 });
 
 export const accounts = pgTable(

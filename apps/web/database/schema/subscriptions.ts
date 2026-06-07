@@ -10,7 +10,7 @@ export const subscriptions = pgTable("subscriptions", {
     .references(() => users.id, { onDelete: "cascade" }),
   paddleSubscriptionId: text("paddle_subscription_id").unique().notNull(),
   paddleCustomerId: text("paddle_customer_id").notNull(),
-  plan: text("plan").$type<"free" | "starter" | "pro">().notNull(),
+  plan: text("plan").$type<"trial" | "pro" | "expired">().notNull(),
   status: text("status").notNull(),
   currentPeriodStart: timestamp("current_period_start", { mode: "date" }),
   currentPeriodEnd: timestamp("current_period_end", { mode: "date" }),
