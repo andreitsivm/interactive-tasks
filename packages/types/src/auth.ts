@@ -1,14 +1,14 @@
 import type { IUser } from "./user";
 import type { UserRole, Permission } from "./user";
 
-export type SubscriptionPlan = "free" | "starter" | "pro";
+export type SubscriptionPlan = "trial" | "pro" | "expired";
 
 export interface IJwtPayload {
   sub: string;
   email: string;
   roles: UserRole[];
   permissions: Permission[];
-  subscriptionPlan: SubscriptionPlan;
+  subscriptionPlan: SubscriptionPlan | null;
   iat?: number;
   exp?: number;
 }

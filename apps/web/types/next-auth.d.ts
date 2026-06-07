@@ -9,7 +9,7 @@ declare module "next-auth" {
       name: string | null;
       roles: UserRole[];
       permissions: Permission[];
-      subscriptionPlan: SubscriptionPlan;
+      subscriptionPlan: SubscriptionPlan | null;
     };
   }
 }
@@ -20,6 +20,6 @@ declare module "next-auth/jwt" {
     roles: UserRole[];
     permissions: Permission[];
     accessToken: string;
-    subscriptionPlan: SubscriptionPlan;
+    subscriptionPlan: SubscriptionPlan | null;
   }
 }
