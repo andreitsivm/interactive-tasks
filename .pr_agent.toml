@@ -1,0 +1,3 @@
+[github_action_runner]
+auto_review = true
+handle_push_trigger = true
