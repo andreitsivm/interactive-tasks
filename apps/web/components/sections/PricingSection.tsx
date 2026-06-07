@@ -31,7 +31,7 @@ export async function PricingSection() {
           locale={locale}
           userEmail={session?.user.email ?? null}
           userId={session?.user.id ?? null}
-          currentPlan={session?.user.subscriptionPlan ?? "free"}
+          currentPlan={session?.user.subscriptionPlan ?? null}
         />
       </div>
     </section>

@@ -28,11 +28,11 @@ export function VerifyForm({ email, mode }: VerifyFormProps) {
     if ("preVerifiedToken" in state) {
       void signIn("credentials", {
         token: state.preVerifiedToken,
-        callbackUrl: "/dashboard",
+        callbackUrl: mode === "signup" ? "/checkout" : "/dashboard",
         redirect: true,
       });
     }
-  }, [state]);
+  }, [state, mode]);
 
   function updateHidden() {
     const value = inputRefs.current.map((el) => el?.value ?? "").join("");

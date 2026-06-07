@@ -18,7 +18,7 @@ interface PricingCardsProps {
   locale: Locale;
   userEmail: string | null;
   userId: string | null;
-  currentPlan: SubscriptionPlan;
+  currentPlan: SubscriptionPlan | null;
 }
 
 const FALLBACK_FEATURES: Record<string, string[]> = {
