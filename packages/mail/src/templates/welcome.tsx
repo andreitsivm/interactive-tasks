@@ -9,9 +9,10 @@ import {
 
 interface WelcomeEmailProps {
   name: string;
+  appUrl: string;
 }
 
-export function WelcomeEmail({ name }: WelcomeEmailProps) {
+export function WelcomeEmail({ name, appUrl }: WelcomeEmailProps) {
   return (
     <Html lang="en">
       <Body style={{ fontFamily: "sans-serif", backgroundColor: "#f9f9f9" }}>
@@ -26,7 +27,7 @@ export function WelcomeEmail({ name }: WelcomeEmailProps) {
             learning tasks in seconds.
           </Text>
           <Button
-            href={process.env.AUTH_URL ?? "https://yourapp.com"}
+            href={appUrl}
             style={{
               backgroundColor: "#111",
               color: "#fff",

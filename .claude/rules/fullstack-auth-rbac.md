@@ -29,10 +29,10 @@ When a user's roles change, the change takes effect on their next login. If imme
 
 ## Environment variables
 
-| Variable      | Purpose                                                               |
-| ------------- | --------------------------------------------------------------------- |
-| `AUTH_SECRET` | Shared between `apps/web` and `apps/api` for JWT signing/verification |
-| `AUTH_URL`    | Auth.js callback base URL (`apps/web` only)                           |
+| Variable       | Purpose                                                               |
+| -------------- | --------------------------------------------------------------------- |
+| `AUTH_SECRET`  | Shared between `apps/web` and `apps/api` for JWT signing/verification |
+| `NEXTAUTH_URL` | next-auth v4 callback base URL (`apps/web` only)                      |
 
 Never hardcode secrets. Never commit `.env` files.
 

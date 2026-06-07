@@ -53,6 +53,10 @@ See `@.claude/skills/nestjs-create-module` for the full scaffold with code templ
 - Controllers must not contain business logic
 - Map use case output to response DTO before returning
 
+## Use case granularity — event-driven handlers
+
+Group use cases by **outcome**, not by triggering event. When multiple events (e.g. `subscription.activated`, `subscription.updated`, `subscription.canceled`) all produce the same state change (sync subscription → DB), one use case handles all of them. Splitting by event type creates parallel use cases with duplicated logic and no meaningful boundary.
+
 ## What goes in `apps/api/src/modules/` vs `apps/api/src/`
 
 - Feature modules: `src/modules/<domain>/`

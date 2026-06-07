@@ -46,7 +46,7 @@ pnpm lint && pnpm check-types && pnpm build
 | Variable                          | Required | Purpose                                           |
 | --------------------------------- | -------- | ------------------------------------------------- |
 | `AUTH_SECRET`                     | Yes      | JWT signing — shared with `apps/api`              |
-| `AUTH_URL`                        | Yes      | Auth.js callback base URL                         |
+| `NEXTAUTH_URL`                    | Yes      | next-auth v4 callback base URL                    |
 | `DATABASE_URL`                    | Yes      | PostgreSQL connection string (Drizzle + Auth.js)  |
 | `REDIS_URL`                       | Yes      | OTP storage (ioredis)                             |
 | `RESEND_API_KEY`                  | Yes      | Resend API key for email delivery                 |
@@ -59,7 +59,6 @@ pnpm lint && pnpm check-types && pnpm build
 | `PADDLE_PRICE_ID_PRO`             | No       | Paddle price ID for Pro plan                      |
 | `NEXT_PUBLIC_PADDLE_CLIENT_TOKEN` | No       | Paddle client token (safe to expose)              |
 | `NEXT_PUBLIC_PADDLE_ENV`          | No       | `"sandbox"` or `"production"`                     |
-| `NEXT_PUBLIC_SITE_URL`            | No       | Public URL for OG tags / structured data          |
 
 ## Auth architecture
 

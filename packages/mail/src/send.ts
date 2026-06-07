@@ -17,8 +17,9 @@ export async function sendOtpEmail(to: string, code: string): Promise<void> {
 export async function sendWelcomeEmail(
   to: string,
   name: string,
+  appUrl: string,
 ): Promise<void> {
-  const html = await renderWelcomeEmail(name);
+  const html = await renderWelcomeEmail(name, appUrl);
   await getResend().emails.send({
     from: FROM,
     to,
