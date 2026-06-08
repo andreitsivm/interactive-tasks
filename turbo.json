@@ -5,15 +5,48 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"]
+      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**"],
+      "env": [
+        "NODE_ENV",
+        "DATABASE_URL",
+        "AUTH_SECRET",
+        "NEXTAUTH_URL",
+        "AUTH_GOOGLE_ID",
+        "AUTH_GOOGLE_SECRET",
+        "REDIS_URL",
+        "RESEND_API_KEY",
+        "MAIL_FROM",
+        "PADDLE_API_KEY",
+        "PADDLE_WEBHOOK_SECRET",
+        "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN",
+        "NEXT_PUBLIC_PADDLE_ENV",
+        "OPENAI_API_KEY"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "env": [
+        "NODE_ENV",
+        "DATABASE_URL",
+        "AUTH_SECRET",
+        "NEXTAUTH_URL",
+        "AUTH_GOOGLE_ID",
+        "AUTH_GOOGLE_SECRET",
+        "REDIS_URL",
+        "RESEND_API_KEY",
+        "MAIL_FROM",
+        "PADDLE_API_KEY",
+        "PADDLE_WEBHOOK_SECRET",
+        "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN",
+        "NEXT_PUBLIC_PADDLE_ENV",
+        "OPENAI_API_KEY"
+      ]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
     },
     "dev": {
+      "dependsOn": ["^build"],
       "cache": false,
       "persistent": true
     }

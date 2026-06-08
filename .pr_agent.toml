@@ -1,0 +1,29 @@
+[github_action_runner]
+auto_review = true
+
+[pr_reviewer]
+# On synchronize events, review only commits added since the last review
+incremental = true
+
+[ignore]
+# Review only source code — skip config, docs, and tooling files
+glob = [
+  ".claude/**",
+  ".github/**",
+  "docs/**",
+  "**/*.md",
+  "**/*.toml",
+  "turbo.json",
+  ".gitignore",
+  ".env*",
+  "pnpm-lock.yaml",
+]
+
+[pr_code_suggestions]
+# Fewer suggestions = fewer tokens per chunk
+num_code_suggestions_per_chunk = 2
+
+[config]
+max_model_tokens = 40000
+model = "gpt-5-nano"
+fallback_models = ["o4-mini"]

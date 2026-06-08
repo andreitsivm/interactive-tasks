@@ -33,7 +33,7 @@ export async function HeroSection() {
           style={{ animationDelay: "280ms" }}
         >
           <Button asChild size="lg" className="text-base px-8">
-            <Link href="/pricing">{t("cta")}</Link>
+            <Link href="/sign-up">{t("cta")}</Link>
           </Button>
           <Button
             asChild

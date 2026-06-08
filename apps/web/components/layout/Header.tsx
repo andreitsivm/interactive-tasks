@@ -57,7 +57,7 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-6">
             <Link
-              href="/pricing"
+              href="/#pricing"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
               {t("pricing")}
@@ -90,7 +90,7 @@ export function Header() {
             <LocaleSwitcher />
             <ThemeToggle />
             <Button asChild size="sm">
-              <Link href="/pricing">{t("getStarted")}</Link>
+              <Link href="/sign-up">{t("getStarted")}</Link>
             </Button>
           </div>
 
