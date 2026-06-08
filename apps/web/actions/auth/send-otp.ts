@@ -61,15 +61,24 @@ export async function sendOtp(
   pipeline.set(`otp:cooldown:${email}`, "1", "EX", COOLDOWN_TTL);
   pipeline.incr(`otp:send_count:${email}`);
   pipeline.expire(`otp:send_count:${email}`, SEND_COUNT_TTL);
-  await pipeline.exec();
-
   try {
-    await sendOtpEmail(email, code);
+    await pipeline.exec();
   } catch (err: unknown) {
-    await redis.del(`otp:${email}`, `otp:cooldown:${email}`);
-    await redis.decr(`otp:send_count:${email}`);
-    console.error("[auth] Failed to send OTP email:", err);
-    return { error: "Couldn't send the code. Please try again." };
+    console.error("[auth] Redis pipeline failed:", err);
+    return { error: "Internal server error. Please try again." };
+  }
+
+  if (process.env.NODE_ENV === "development") {
+    console.log(`[auth] OTP for ${email}: ${code}`);
+  } else {
+    try {
+      await sendOtpEmail(email, code);
+    } catch (err: unknown) {
+      await redis.del(`otp:${email}`, `otp:cooldown:${email}`);
+      await redis.decr(`otp:send_count:${email}`);
+      console.error("[auth] Failed to send OTP email:", err);
+      return { error: "Couldn't send the code. Please try again." };
+    }
   }
 
   const params = new URLSearchParams({ email, mode });

@@ -26,3 +26,4 @@ num_code_suggestions_per_chunk = 2
 [config]
 max_model_tokens = 40000
 model = "gpt-5-nano"
+fallback_models = ["o4-mini"]

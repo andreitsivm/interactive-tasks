@@ -19,7 +19,8 @@
         "PADDLE_API_KEY",
         "PADDLE_WEBHOOK_SECRET",
         "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN",
-        "NEXT_PUBLIC_PADDLE_ENV"
+        "NEXT_PUBLIC_PADDLE_ENV",
+        "OPENAI_API_KEY"
       ]
     },
     "lint": {
@@ -37,7 +38,8 @@
         "PADDLE_API_KEY",
         "PADDLE_WEBHOOK_SECRET",
         "NEXT_PUBLIC_PADDLE_CLIENT_TOKEN",
-        "NEXT_PUBLIC_PADDLE_ENV"
+        "NEXT_PUBLIC_PADDLE_ENV",
+        "OPENAI_API_KEY"
       ]
     },
     "check-types": {
