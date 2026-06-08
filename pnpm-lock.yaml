@@ -44,12 +44,18 @@ importers:
       express-basic-auth:
         specifier: ^1.2.1
         version: 1.2.1
+      ioredis:
+        specifier: ^5.11.1
+        version: 5.11.1
       passport:
         specifier: ^0.7.0
         version: 0.7.0
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -262,9 +268,6 @@ importers:
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.7.0)
-      tsx:
-        specifier: ^4.22.4
-        version: 4.22.4
       typescript:
         specifier: 5.9.2
         version: 5.9.2

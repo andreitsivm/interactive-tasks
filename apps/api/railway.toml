@@ -3,7 +3,7 @@ buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/types
 watchPatterns = ["apps/api/**", "packages/**", "pnpm-lock.yaml"]
 
 [deploy]
-startCommand = "node apps/api/dist/main.js"
+startCommand = "pnpm --filter api db:seed && node apps/api/dist/main.js"
 healthcheckPath = "/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
