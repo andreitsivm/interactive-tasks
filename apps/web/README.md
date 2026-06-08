@@ -48,7 +48,7 @@ pnpm lint && pnpm check-types && pnpm build
 | `AUTH_SECRET`                     | Yes      | JWT signing — shared with `apps/api`              |
 | `NEXTAUTH_URL`                    | Yes      | next-auth v4 callback base URL                    |
 | `DATABASE_URL`                    | Yes      | PostgreSQL connection string (Drizzle + Auth.js)  |
-| `REDIS_URL`                       | Yes      | OTP storage (ioredis)                             |
+| `REDIS_PUBLIC_URL`                | Yes      | OTP storage (ioredis)                             |
 | `RESEND_API_KEY`                  | Yes      | Resend API key for email delivery                 |
 | `MAIL_FROM`                       | Yes      | Verified sender address in Resend                 |
 | `AUTH_GOOGLE_ID`                  | No       | Google OAuth — sign-in button hidden if absent    |
