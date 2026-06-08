@@ -14,8 +14,11 @@ import type { AuthOptions, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { UserRole, IJwtPayload, SubscriptionPlan } from "@workspace/types";
 
-const APP_URL = process.env.NEXTAUTH_URL;
-if (!APP_URL) throw new Error("NEXTAUTH_URL env var is required but not set");
+function getAppUrl(): string {
+  const url = process.env.NEXTAUTH_URL;
+  if (!url) throw new Error("NEXTAUTH_URL env var is required but not set");
+  return url;
+}
 
 function hasRoles(
   user: User | AdapterUser,
@@ -88,7 +91,7 @@ export const authOptions: AuthOptions = {
           .returning();
 
         if (newUser) {
-          sendWelcomeEmail(email, newUser.name ?? email, APP_URL).catch(
+          sendWelcomeEmail(email, newUser.name ?? email, getAppUrl()).catch(
             (err: unknown) => {
               console.error("[auth] Failed to send welcome email:", err);
             },
