@@ -1,9 +1,9 @@
 [build]
-buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/types build && pnpm --filter api build && pnpm --filter web db:migrate"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/types build && pnpm --filter api build"
 watchPatterns = ["apps/api/**", "packages/**", "pnpm-lock.yaml"]
 
 [deploy]
-startCommand = "pnpm --filter api db:seed && node apps/api/dist/main.js"
+startCommand = "pnpm --filter web db:migrate && pnpm --filter api db:seed && node apps/api/dist/main.js"
 healthcheckPath = "/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
