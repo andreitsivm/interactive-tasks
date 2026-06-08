@@ -53,3 +53,7 @@ Examples requiring confirmation:
 ## Local development
 
 Point local dev at a local Postgres instance or the staging Railway service. Never point a local environment at the production database.
+
+## Git
+
+- Development of new features required of creation feature branch from `dev`
