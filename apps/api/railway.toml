@@ -1,5 +1,5 @@
 [build]
-buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/types build && pnpm --filter api build"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/types build && pnpm --filter api build && pnpm --filter web db:migrate"
 watchPatterns = ["apps/api/**", "packages/**", "pnpm-lock.yaml"]
 
 [deploy]
