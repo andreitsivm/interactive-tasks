@@ -112,7 +112,9 @@ describe("FillTheGapResponseSchema", () => {
   });
 
   it("requires title and instructions", () => {
-    const { title: _t, ...withoutTitle } = validResponse;
+    const withoutTitle = Object.fromEntries(
+      Object.entries(validResponse).filter(([key]) => key !== "title"),
+    );
     expect(FillTheGapResponseSchema.safeParse(withoutTitle).success).toBe(
       false,
     );

@@ -81,8 +81,11 @@ export function FillTheGapForm({
       <CardContent>
         <form onSubmit={handleSubmit(handleValid)} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Topic</label>
+            <label htmlFor="ftg-topic" className="text-sm font-medium">
+              Topic
+            </label>
             <input
+              id="ftg-topic"
               {...register("topic")}
               placeholder="e.g. animals, travel, daily routines"
               className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
@@ -93,13 +96,15 @@ export function FillTheGapForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">CEFR Level</label>
+            <label htmlFor="ftg-level" className="text-sm font-medium">
+              CEFR Level
+            </label>
             <Controller
               name="level"
               control={control}
               render={({ field }) => (
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger id="ftg-level" className="w-full">
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
                   <SelectContent>
@@ -117,13 +122,15 @@ export function FillTheGapForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Language</label>
+            <label htmlFor="ftg-language" className="text-sm font-medium">
+              Language
+            </label>
             <Controller
               name="language"
               control={control}
               render={({ field }) => (
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger id="ftg-language" className="w-full">
                     <SelectValue placeholder="Select language" />
                   </SelectTrigger>
                   <SelectContent>
@@ -138,8 +145,11 @@ export function FillTheGapForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Sentences (3–10)</label>
+            <label htmlFor="ftg-sentence-count" className="text-sm font-medium">
+              Sentences (3–10)
+            </label>
             <input
+              id="ftg-sentence-count"
               {...register("sentenceCount")}
               type="number"
               min={3}
@@ -154,13 +164,15 @@ export function FillTheGapForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Age Group</label>
+            <label htmlFor="ftg-age-group" className="text-sm font-medium">
+              Age Group
+            </label>
             <Controller
               name="ageGroup"
               control={control}
               render={({ field }) => (
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger id="ftg-age-group" className="w-full">
                     <SelectValue placeholder="Select age group" />
                   </SelectTrigger>
                   <SelectContent>
@@ -174,13 +186,14 @@ export function FillTheGapForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">
+            <label htmlFor="ftg-custom-words" className="text-sm font-medium">
               Custom words{" "}
               <span className="font-normal text-muted-foreground">
                 (optional, comma-separated)
               </span>
             </label>
             <input
+              id="ftg-custom-words"
               {...register("customWordsRaw")}
               placeholder="e.g. jump, run, swim"
               className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
