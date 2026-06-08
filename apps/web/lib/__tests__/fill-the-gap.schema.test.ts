@@ -83,14 +83,37 @@ describe("FillTheGapResponseSchema", () => {
     );
   });
 
-  it("rejects blanks with fewer than 3 options", () => {
+  it("rejects blanks with fewer than 4 options", () => {
     const invalid = {
       ...validResponse,
       sentences: [
         {
           ...validResponse.sentences[0],
           blanks: [
-            { id: "b1", correctAnswer: "jumped", options: ["jumped", "ran"] },
+            {
+              id: "b1",
+              correctAnswer: "jumped",
+              options: ["jumped", "ran", "flew"],
+            },
+          ],
+        },
+      ],
+    };
+    expect(FillTheGapResponseSchema.safeParse(invalid).success).toBe(false);
+  });
+
+  it("rejects blanks with more than 5 options", () => {
+    const invalid = {
+      ...validResponse,
+      sentences: [
+        {
+          ...validResponse.sentences[0],
+          blanks: [
+            {
+              id: "b1",
+              correctAnswer: "jumped",
+              options: ["jumped", "ran", "flew", "swam", "walked", "hopped"],
+            },
           ],
         },
       ],

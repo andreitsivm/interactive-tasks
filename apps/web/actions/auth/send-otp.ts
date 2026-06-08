@@ -61,7 +61,12 @@ export async function sendOtp(
   pipeline.set(`otp:cooldown:${email}`, "1", "EX", COOLDOWN_TTL);
   pipeline.incr(`otp:send_count:${email}`);
   pipeline.expire(`otp:send_count:${email}`, SEND_COUNT_TTL);
-  await pipeline.exec();
+  try {
+    await pipeline.exec();
+  } catch (err: unknown) {
+    console.error("[auth] Redis pipeline failed:", err);
+    return { error: "Internal server error. Please try again." };
+  }
 
   if (process.env.NODE_ENV === "development") {
     console.log(`[auth] OTP for ${email}: ${code}`);

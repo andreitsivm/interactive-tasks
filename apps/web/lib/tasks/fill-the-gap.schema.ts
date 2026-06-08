@@ -13,7 +13,7 @@ export const FillTheGapRequestSchema = z.object({
 const BlankSchema = z.object({
   id: z.string(),
   correctAnswer: z.string(),
-  options: z.array(z.string()).min(3).max(6),
+  options: z.array(z.string()).min(4).max(5),
 });
 
 const SentenceSchema = z.object({
@@ -24,7 +24,7 @@ const SentenceSchema = z.object({
       z.object({ type: z.literal("blank"), blankId: z.string() }),
     ]),
   ),
-  blanks: z.array(BlankSchema),
+  blanks: z.array(BlankSchema).min(1).max(2),
 });
 
 export const FillTheGapResponseSchema = z.object({
