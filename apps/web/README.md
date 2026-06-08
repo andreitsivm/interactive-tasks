@@ -6,7 +6,7 @@ Next.js 16 frontend for Interactive Tasks. Handles auth (Email OTP + Google OAut
 
 ```sh
 cp .env.example .env.local
-# Fill in at minimum: AUTH_SECRET, DATABASE_URL, REDIS_URL, RESEND_API_KEY, MAIL_FROM
+# Fill in at minimum: AUTH_SECRET, DATABASE_PUBLIC_URL, REDIS_URL, RESEND_API_KEY, MAIL_FROM
 ```
 
 Push the database schema (first time or after schema changes):
@@ -47,7 +47,7 @@ pnpm lint && pnpm check-types && pnpm build
 | --------------------------------- | -------- | ------------------------------------------------- |
 | `AUTH_SECRET`                     | Yes      | JWT signing — shared with `apps/api`              |
 | `NEXTAUTH_URL`                    | Yes      | next-auth v4 callback base URL                    |
-| `DATABASE_URL`                    | Yes      | PostgreSQL connection string (Drizzle + Auth.js)  |
+| `DATABASE_PUBLIC_URL`             | Yes      | PostgreSQL connection string (Drizzle + Auth.js)  |
 | `REDIS_PUBLIC_URL`                | Yes      | OTP storage (ioredis)                             |
 | `RESEND_API_KEY`                  | Yes      | Resend API key for email delivery                 |
 | `MAIL_FROM`                       | Yes      | Verified sender address in Resend                 |

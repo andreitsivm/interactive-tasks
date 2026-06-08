@@ -1,9 +1,9 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
-import * as authSchema from "./schema/auth";
-import * as subscriptionsSchema from "./schema/subscriptions";
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import * as authSchema from './schema/auth';
+import * as subscriptionsSchema from './schema/subscriptions';
 
-const client = postgres(process.env.DATABASE_URL!);
+const client = postgres(process.env.DATABASE_PUBLIC_URL!);
 
 export const db = drizzle(client, {
   schema: { ...authSchema, ...subscriptionsSchema },

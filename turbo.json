@@ -9,6 +9,7 @@
       "env": [
         "NODE_ENV",
         "DATABASE_URL",
+        "DATABASE_PUBLIC_URL",
         "AUTH_SECRET",
         "NEXTAUTH_URL",
         "AUTH_GOOGLE_ID",
@@ -29,6 +30,7 @@
       "env": [
         "NODE_ENV",
         "DATABASE_URL",
+        "DATABASE_PUBLIC_URL",
         "AUTH_SECRET",
         "NEXTAUTH_URL",
         "AUTH_GOOGLE_ID",
