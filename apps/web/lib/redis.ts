@@ -1,4 +1,4 @@
-import Redis from "ioredis";
+import Redis from 'ioredis';
 
 declare global {
   var redis: Redis | undefined;
@@ -6,11 +6,11 @@ declare global {
 
 export const redis =
   globalThis.redis ??
-  new Redis(process.env.REDIS_URL!, {
+  new Redis(process.env.REDIS_PUBLIC_URL!, {
     maxRetriesPerRequest: 3,
     lazyConnect: true,
   });
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   globalThis.redis = redis;
 }
