@@ -14,6 +14,14 @@ interface FillTheGapResultProps {
   error: Error | undefined;
 }
 
+function isSegmentReady(seg: { type?: string; blankId?: string }): boolean {
+  return (
+    typeof seg.type === "string" &&
+    (seg.type !== "blank" ||
+      (typeof seg.blankId === "string" && seg.blankId !== ""))
+  );
+}
+
 function isSentenceReady(
   s: DeepPartial<ISentence> | undefined,
 ): s is ISentence {
@@ -22,9 +30,7 @@ function isSentenceReady(
     typeof s.id === "string" &&
     Array.isArray(s.segments) &&
     s.segments.length > 0 &&
-    s.segments.every(
-      (seg) => seg !== undefined && typeof seg.type === "string",
-    ) &&
+    s.segments.every((seg) => seg !== undefined && isSegmentReady(seg)) &&
     Array.isArray(s.blanks) &&
     s.blanks.length > 0 &&
     s.blanks.every(

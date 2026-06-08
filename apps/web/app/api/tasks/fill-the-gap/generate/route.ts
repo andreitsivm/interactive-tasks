@@ -1,5 +1,5 @@
 import { streamObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { auth } from "@/auth";
 import {
   FillTheGapRequestSchema,
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamObject({
-    model: openai("gpt-4o"),
+    model: createOpenAI({ apiKey })("gpt-4o"),
     schema: FillTheGapResponseSchema,
     prompt: buildPrompt(parsed.data),
   });

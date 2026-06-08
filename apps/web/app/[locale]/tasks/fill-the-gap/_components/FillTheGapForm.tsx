@@ -24,7 +24,7 @@ const formSchema = z.object({
     .transform(Number)
     .pipe(z.number().int().min(3, "Minimum 3").max(10, "Maximum 10")),
   ageGroup: z.enum(["child", "teen", "adult"]),
-  customWordsRaw: z.string().optional(),
+  customWordsRaw: z.string().max(1000).optional(),
 });
 
 // Input type: sentenceCount is string (from HTML number input) → transformed to number by schema
@@ -87,6 +87,7 @@ export function FillTheGapForm({
             <input
               id="ftg-topic"
               {...register("topic")}
+              maxLength={100}
               placeholder="e.g. animals, travel, daily routines"
               className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
             />
@@ -195,6 +196,7 @@ export function FillTheGapForm({
             <input
               id="ftg-custom-words"
               {...register("customWordsRaw")}
+              maxLength={1000}
               placeholder="e.g. jump, run, swim"
               className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
             />

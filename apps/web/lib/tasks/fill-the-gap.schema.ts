@@ -2,12 +2,12 @@ import { z } from "zod";
 import type { IFillTheGapRequest } from "@workspace/types";
 
 export const FillTheGapRequestSchema = z.object({
-  topic: z.string().min(3),
+  topic: z.string().min(3).max(100),
   level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
   language: z.enum(["en", "ua", "de", "fr"]),
   sentenceCount: z.number().int().min(3).max(10),
   ageGroup: z.enum(["child", "teen", "adult"]),
-  customWords: z.array(z.string()).optional(),
+  customWords: z.array(z.string().max(50)).max(20).optional(),
 }) satisfies z.ZodType<IFillTheGapRequest>;
 
 const BlankSchema = z.object({
