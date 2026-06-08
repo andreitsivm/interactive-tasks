@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.68",
+    "@ai-sdk/react": "^3.0.199",
     "@auth/core": "^0.34.3",
     "@auth/drizzle-adapter": "^1.11.2",
     "@hookform/resolvers": "^5.4.0",
