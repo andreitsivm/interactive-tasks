@@ -3,7 +3,7 @@ import {
   getDifficultyGuidelines,
   getAgeGroupModifiers,
 } from "../tasks/fill-the-gap.prompt";
-import type { CefrLevel } from "@workspace/types";
+import type { CefrLevel, AgeGroup } from "@workspace/types";
 
 describe("getDifficultyGuidelines", () => {
   const levels: CefrLevel[] = ["A1", "A2", "B1", "B2", "C1", "C2"];
@@ -30,16 +30,20 @@ describe("getDifficultyGuidelines", () => {
 });
 
 describe("getAgeGroupModifiers", () => {
-  it("returns a non-empty string for 'child'", () => {
-    expect(getAgeGroupModifiers("child").length).toBeGreaterThan(0);
+  const groups: AgeGroup[] = ["child", "teen", "adult"];
+
+  it.each(groups)("returns a non-empty string for age group %s", (group) => {
+    expect(getAgeGroupModifiers(group).length).toBeGreaterThan(0);
   });
 
-  it("returns a non-empty string for 'teen'", () => {
-    expect(getAgeGroupModifiers("teen").length).toBeGreaterThan(0);
+  it("child output contains child-context signals", () => {
+    expect(getAgeGroupModifiers("child")).toMatch(/children|school|family/i);
   });
 
-  it("returns a non-empty string for 'adult'", () => {
-    expect(getAgeGroupModifiers("adult").length).toBeGreaterThan(0);
+  it("adult output contains adult-context signals", () => {
+    expect(getAgeGroupModifiers("adult")).toMatch(
+      /professional|academic|work/i,
+    );
   });
 
   it("child output differs from adult output", () => {
