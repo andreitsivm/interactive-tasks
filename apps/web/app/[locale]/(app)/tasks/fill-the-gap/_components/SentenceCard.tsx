@@ -74,11 +74,13 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
                   <SelectValue placeholder="___" />
                 </SelectTrigger>
                 <SelectContent>
-                  {blank.options.map((opt) => (
-                    <SelectItem key={opt} value={opt}>
-                      {opt}
-                    </SelectItem>
-                  ))}
+                  {blank.options
+                    .filter((opt) => opt.length > 0)
+                    .map((opt, i) => (
+                      <SelectItem key={`${blank.id}-${i}`} value={opt}>
+                        {opt}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
               {isWrong && (
