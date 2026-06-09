@@ -71,12 +71,22 @@ describe("buildPrompt", () => {
     expect(buildPrompt(base)).toContain("B1");
   });
 
-  it("includes the sentence count", () => {
-    expect(buildPrompt(base)).toContain("5");
+  it("includes the sentence count in context and rules", () => {
+    const output = buildPrompt(base);
+    expect(output).toContain("Number of sentences: 5");
+    expect(output).toContain("Generate exactly 5 sentences");
+  });
+
+  it("includes the language", () => {
+    expect(buildPrompt(base)).toContain("en");
   });
 
   it("includes the difficulty guidelines section", () => {
     expect(buildPrompt(base)).toContain("INTERMEDIATE LEVEL");
+  });
+
+  it("includes the age group modifiers section", () => {
+    expect(buildPrompt(base)).toContain("AGE GROUP MODIFIERS");
   });
 
   it("includes the structural rule about word class", () => {
