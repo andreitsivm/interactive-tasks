@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { fetchCatalog } from "@/lib/paddle";
 import { ExpiredInterstitial } from "./_components/ExpiredInterstitial";
@@ -9,7 +10,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session) return null; // unreachable — parent (app)/layout.tsx redirects
+  if (!session) redirect("/sign-in");
 
   const isExpired = session.user.subscriptionPlan === "expired";
 
