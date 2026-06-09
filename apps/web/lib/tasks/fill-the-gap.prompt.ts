@@ -51,3 +51,50 @@ export function getAgeGroupModifiers(ageGroup: AgeGroup): string {
 
   return modifiers[ageGroup];
 }
+
+export function buildPrompt(req: IFillTheGapRequest): string {
+  const customWordsHint =
+    req.customWords && req.customWords.length > 0
+      ? `\nPreferred words to use as correct answers: ${req.customWords.join(", ")}.`
+      : "";
+
+  return `You are an expert language teacher creating fill-the-gap exercises.
+
+CONTEXT:
+- Topic: "${req.topic}"
+- CEFR Level: ${req.level}
+- Language: ${req.language}
+- Age group: ${req.ageGroup}
+- Number of sentences: ${req.sentenceCount}${customWordsHint}
+
+DIFFICULTY GUIDELINES:
+${getDifficultyGuidelines(req.level)}
+
+AGE GROUP MODIFIERS:
+${getAgeGroupModifiers(req.ageGroup)}
+
+STRUCTURAL RULES FOR BLANKS:
+1. A blank must never be the first word of a sentence.
+2. All options (4–5 choices) must be the same grammatical word class as the correct answer (e.g. all verbs, all nouns).
+3. Distractors must reflect errors typical of learners at ${req.level} level — not random words.
+4. The correct answer must unambiguously fit the surrounding context; no trick questions.
+5. Each sentence must be grammatically complete and correct when the blank is filled with the correct answer.
+6. Generate exactly ${req.sentenceCount} sentences, each with 1–2 blanks.
+
+Return a structured JSON object with:
+- title: a short descriptive title (5–8 words)
+- instructions: one sentence telling the learner what to do
+- sentences: exactly ${req.sentenceCount} sentence objects
+
+Each sentence object must have:
+- id: unique string "s1", "s2", ... "s${req.sentenceCount}"
+- segments: ordered array of text/blank nodes forming the full sentence
+  - text node: { "type": "text", "value": "<text run>" }
+  - blank node: { "type": "blank", "blankId": "<id matching a blank>" }
+- blanks: array of 1–2 blank objects per sentence
+  - id: globally unique string "b1", "b2", ... across all sentences
+  - correctAnswer: the word that fills this blank
+  - options: 4–5 strings including the correct answer, shuffled (plausible distractors)
+
+Keep vocabulary and grammar appropriate for ${req.level} level ${req.ageGroup} learners.`.trim();
+}
