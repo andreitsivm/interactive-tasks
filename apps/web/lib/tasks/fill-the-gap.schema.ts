@@ -19,7 +19,7 @@ const BlankSchema = z.object({
 const SentenceSchema = z.object({
   id: z.string(),
   segments: z.array(
-    z.discriminatedUnion("type", [
+    z.union([
       z.object({ type: z.literal("text"), value: z.string() }),
       z.object({ type: z.literal("blank"), blankId: z.string() }),
     ]),
