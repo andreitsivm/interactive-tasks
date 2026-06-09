@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { fetchCatalog } from "@/lib/paddle";
 import { ExpiredInterstitial } from "./_components/ExpiredInterstitial";
+import { DashboardSidebar } from "@/components/layout/DashboardSidebar";
 
 export default async function DashboardLayout({
   children,
@@ -9,7 +9,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (!session) redirect("/sign-in");
+  if (!session) return null; // unreachable — parent (app)/layout.tsx redirects
 
   const isExpired = session.user.subscriptionPlan === "expired";
 
@@ -36,5 +36,10 @@ export default async function DashboardLayout({
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div className="flex flex-col flex-1 md:flex-row">
+      <DashboardSidebar />
+      <main className="flex-1 overflow-auto">{children}</main>
+    </div>
+  );
 }
