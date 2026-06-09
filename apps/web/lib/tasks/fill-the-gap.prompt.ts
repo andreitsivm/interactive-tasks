@@ -1,4 +1,4 @@
-import type { CefrLevel } from "@workspace/types";
+import type { CefrLevel, AgeGroup, IFillTheGapRequest } from "@workspace/types";
 
 export function getDifficultyGuidelines(level: CefrLevel): string {
   const guidelines: Record<CefrLevel, string> = {
