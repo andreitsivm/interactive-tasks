@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 import { initializePaddle } from "@paddle/paddle-js";
 import type { Paddle } from "@paddle/paddle-js";
 import { siteConfig } from "@/config/site";
@@ -50,11 +50,11 @@ export function ExpiredInterstitial({
         <p className="text-muted-foreground mb-6">
           Upgrade to Pro to regain access to all features.
         </p>
-        {initError && (
+        <Activity mode={initError ? "visible" : "hidden"}>
           <p className="text-xs text-destructive mb-2" role="alert">
             Payment system unavailable. Please refresh or try again later.
           </p>
-        )}
+        </Activity>
         <Button
           size="lg"
           className="w-full"
