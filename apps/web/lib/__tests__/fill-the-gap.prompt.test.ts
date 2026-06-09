@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { getDifficultyGuidelines } from "../tasks/fill-the-gap.prompt";
+import {
+  getDifficultyGuidelines,
+  getAgeGroupModifiers,
+} from "../tasks/fill-the-gap.prompt";
 import type { CefrLevel } from "@workspace/types";
 
 describe("getDifficultyGuidelines", () => {
@@ -22,6 +25,26 @@ describe("getDifficultyGuidelines", () => {
   it("A1 and C2 return distinct content", () => {
     expect(getDifficultyGuidelines("A1")).not.toBe(
       getDifficultyGuidelines("C2"),
+    );
+  });
+});
+
+describe("getAgeGroupModifiers", () => {
+  it("returns a non-empty string for 'child'", () => {
+    expect(getAgeGroupModifiers("child").length).toBeGreaterThan(0);
+  });
+
+  it("returns a non-empty string for 'teen'", () => {
+    expect(getAgeGroupModifiers("teen").length).toBeGreaterThan(0);
+  });
+
+  it("returns a non-empty string for 'adult'", () => {
+    expect(getAgeGroupModifiers("adult").length).toBeGreaterThan(0);
+  });
+
+  it("child output differs from adult output", () => {
+    expect(getAgeGroupModifiers("child")).not.toBe(
+      getAgeGroupModifiers("adult"),
     );
   });
 });

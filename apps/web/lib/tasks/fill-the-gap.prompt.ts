@@ -41,3 +41,13 @@ export function getDifficultyGuidelines(level: CefrLevel): string {
 
   return guidelines[level];
 }
+
+export function getAgeGroupModifiers(ageGroup: AgeGroup): string {
+  const modifiers: Record<AgeGroup, string> = {
+    child: `Age group: Children. Use concrete, familiar topics (animals, family, school, food, colours). Keep sentences short and fun. Avoid abstract ideas, professional jargon, or adult themes.`,
+    teen: `Age group: Teenagers. Use relatable topics (social media, school life, sports, music, technology, friendships). Casual but grammatically correct register. Avoid an overly formal or childish tone.`,
+    adult: `Age group: Adults. Use neutral-to-professional register. Academic, work, travel, and cultural topics are all appropriate. Avoid slang.`,
+  };
+
+  return modifiers[ageGroup];
+}
