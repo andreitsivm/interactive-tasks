@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,8 @@ const TASK_DESCRIPTIONS: Record<string, string> = {
   vocabulary: "Expand vocabulary with context-rich exercises.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const locale = await getLocale();
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="mb-8">
@@ -35,7 +37,10 @@ export default function DashboardPage() {
             <Card key={task.slug} className={isImplemented ? "" : "opacity-60"}>
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">{task.label.en}</CardTitle>
+                  <CardTitle className="text-base">
+                    {task.label[locale as keyof typeof task.label] ??
+                      task.label.en}
+                  </CardTitle>
                   {!isImplemented && (
                     <Badge variant="secondary">Coming soon</Badge>
                   )}

@@ -1,7 +1,8 @@
 import { auth } from "@/auth";
 import { SubscriptionBadge } from "@/components/layout/SubscriptionBadge";
+import type { SubscriptionPlan } from "@workspace/types";
 
-const PLAN_STATUS: Record<string, string> = {
+const PLAN_STATUS: Record<SubscriptionPlan, string> = {
   pro: "Active",
   trial: "Trial",
   expired: "Expired",
