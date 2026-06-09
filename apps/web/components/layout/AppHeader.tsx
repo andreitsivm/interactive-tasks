@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { auth } from "@/auth";
+import { Logo } from "@/components/Logo";
 import { siteConfig } from "@/config/site";
 import { Link } from "@/i18n/routing";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -16,7 +16,7 @@ export async function AppHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt={siteConfig.name} width={32} height={32} />
+          <Logo size={32} />
           <span className="font-semibold">{siteConfig.name}</span>
         </Link>
         <div className="flex items-center gap-3">

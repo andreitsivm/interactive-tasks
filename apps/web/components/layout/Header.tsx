@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import Image from "next/image";
 import { Menu } from "lucide-react";
+import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/config/site";
@@ -46,12 +46,7 @@ export function Header() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo.svg"
-              alt={siteConfig.name}
-              width={32}
-              height={32}
-            />
+            <Logo size={32} />
             <span className="font-semibold">{siteConfig.name}</span>
           </Link>
 

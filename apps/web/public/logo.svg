@@ -1,19 +1,33 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 440 440"
-  role="img"
-  aria-labelledby="logo-title"
->
-  <title id="logo-title">Interactive Tasks logo</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440" role="img" aria-labelledby="logo-title">
+  <title id="logo-title">Interactive Tasks</title>
+  <defs>
+    <style>
+      .logo-bg { fill: #1a1a2e; }
+      .logo-inner { fill: #ffffff; }
+      @media (prefers-color-scheme: dark) {
+        .logo-bg { fill: #e8e8f0; }
+        .logo-inner { fill: #1a1a2e; }
+      }
+    </style>
+  </defs>
 
-  <rect x="0" y="0" width="440" height="440" rx="88" fill="#1a1a2e"/>
+  <rect width="440" height="440" rx="88" class="logo-bg"/>
 
-  <rect x="36" y="36" width="140" height="140" rx="28" fill="white"/>
-  <rect x="264" y="36" width="140" height="140" rx="28" fill="white"/>
-  <rect x="36" y="264" width="140" height="140" rx="28" fill="white"/>
+  <g transform="translate(220, 220)">
+    <polygon points="0,-148 148,0 0,148 -148,0"
+             fill="none" stroke="#e0573a" stroke-width="13" stroke-linejoin="round"/>
+    <polygon points="0,-94 94,0 0,94 -94,0" fill="#e0573a"/>
+    <polygon points="0,-49 49,0 0,49 -49,0" class="logo-inner" opacity="0.93"/>
+    <circle cx="0" cy="0" r="20" fill="#e0573a"/>
 
-  <path d="M310 266 L244 358 L276 358 L248 412 L344 308 L310 308 Z" fill="white"/>
+    <line x1="67" y1="-67" x2="108" y2="-108"
+          stroke="#e0573a" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+    <line x1="47" y1="-77" x2="76" y2="-121"
+          stroke="#e0573a" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
 
-  <circle cx="396" cy="28" r="10" fill="white" opacity="0.35"/>
-  <circle cx="420" cy="8" r="6" fill="white" opacity="0.22"/>
+    <line x1="67" y1="67" x2="108" y2="108"
+          stroke="#e0573a" stroke-width="9" stroke-linecap="round" opacity="0.5"/>
+    <line x1="47" y1="77" x2="76" y2="121"
+          stroke="#e0573a" stroke-width="5" stroke-linecap="round" opacity="0.28"/>
+  </g>
 </svg>
