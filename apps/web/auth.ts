@@ -14,12 +14,6 @@ import type { AuthOptions, User } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { UserRole, IJwtPayload, SubscriptionPlan } from "@workspace/types";
 
-function getAppUrl(): string {
-  const url = process.env.NEXTAUTH_URL;
-  if (!url) throw new Error("NEXTAUTH_URL env var is required but not set");
-  return url;
-}
-
 function hasRoles(
   user: User | AdapterUser,
 ): user is (User | AdapterUser) & { roles: string[] } {
@@ -91,11 +85,14 @@ export const authOptions: AuthOptions = {
           .returning();
 
         if (newUser) {
-          sendWelcomeEmail(email, newUser.name ?? email, getAppUrl()).catch(
-            (err: unknown) => {
-              console.error("[auth] Failed to send welcome email:", err);
-            },
-          );
+          const appUrl = process.env.NEXTAUTH_URL ?? "";
+          if (appUrl) {
+            sendWelcomeEmail(email, newUser.name ?? email, appUrl).catch(
+              (err: unknown) => {
+                console.error("[auth] Failed to send welcome email:", err);
+              },
+            );
+          }
         }
 
         return newUser ?? null;
