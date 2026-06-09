@@ -41,6 +41,12 @@ describe("getAgeGroupModifiers", () => {
     expect(getAgeGroupModifiers("child")).toMatch(/children|school|family/i);
   });
 
+  it("teen output contains teen-context signals", () => {
+    expect(getAgeGroupModifiers("teen")).toMatch(
+      /social media|school life|sports/i,
+    );
+  });
+
   it("adult output contains adult-context signals", () => {
     expect(getAgeGroupModifiers("adult")).toMatch(
       /professional|academic|work/i,
