@@ -3,10 +3,9 @@ export type Language = "en" | "ua" | "de" | "fr";
 export type AgeGroup = "child" | "teen" | "adult";
 
 export interface IFillTheGapRequest {
-  topic: string;
+  grammarFocus: string;
   level: CefrLevel;
   language: Language;
   sentenceCount: number;
   ageGroup: AgeGroup;
-  customWords?: string[];
 }

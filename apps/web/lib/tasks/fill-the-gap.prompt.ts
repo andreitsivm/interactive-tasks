@@ -53,19 +53,14 @@ export function getAgeGroupModifiers(ageGroup: AgeGroup): string {
 }
 
 export function buildPrompt(req: IFillTheGapRequest): string {
-  const customWordsHint =
-    req.customWords && req.customWords.length > 0
-      ? `\nPreferred words to use as correct answers: ${req.customWords.join(", ")}.`
-      : "";
-
-  return `You are an expert language teacher creating fill-the-gap exercises.
+  return `You are an expert English language teacher creating grammar practice exercises in the style of Grammar Way — clear, well-structured, and pedagogically purposeful. Every sentence must be specifically designed to test the grammar focus listed below. The blank must fall on the exact word or phrase that demonstrates the target structure. Do not generate sentences where the blank tests vocabulary choice — only the target grammar point.
 
 CONTEXT:
-- Topic: "${req.topic}"
+- Grammar focus: ${req.grammarFocus}
 - CEFR Level: ${req.level}
 - Language: ${req.language}
 - Age group: ${req.ageGroup}
-- Number of sentences: ${req.sentenceCount}${customWordsHint}
+- Number of sentences: ${req.sentenceCount}
 
 DIFFICULTY GUIDELINES:
 ${getDifficultyGuidelines(req.level)}
@@ -73,11 +68,17 @@ ${getDifficultyGuidelines(req.level)}
 AGE GROUP MODIFIERS:
 ${getAgeGroupModifiers(req.ageGroup)}
 
+STYLE GUIDELINES (Grammar Way):
+- Write sentences that are pedagogically purposeful and stand on their own — not grouped around a topic or theme.
+- Use natural, everyday language. Avoid thematic clusters (gym, travel, food).
+- Each sentence must include enough contextual clues that a student at ${req.level} level can deduce the correct answer through grammatical reasoning alone, not world knowledge or general advice.
+
 STRUCTURAL RULES FOR BLANKS:
 1. A blank must never be the first word of a sentence.
 2. All options (4–5 choices) must be the same grammatical word class as the correct answer (e.g. all verbs, all nouns).
 3. Each distractor must have exactly one clear reason it is wrong in this specific sentence — wrong tense form, wrong collocation with the surrounding words, grammatically impossible in this context, or a false friend of the correct answer. The reason must be specific to the sentence context, not a general semantic judgment.
 3a. Near-synonyms that also fit the sentence are forbidden. If a learner could plausibly choose a distractor and still be correct, it is not a valid distractor. Distractors must be from the same word class as the correct answer but wrong for a concrete, explainable reason tied to this sentence.
+3b. Antonyms and opposites are also forbidden as distractors if they produce a grammatically valid sentence. Each wrong option must be unambiguously incorrect — not merely bad advice or an undesirable action. If a learner could construct any reasonable reading in which the distractor is correct, it is not a valid distractor. Grammar-focused sentences make this easier to achieve: wrong verb forms, wrong tense, wrong conjugation, or structurally incompatible constructions are unambiguously incorrect without any semantic ambiguity.
 4. The correct answer must unambiguously fit the surrounding context; no trick questions.
 5. Each sentence must be grammatically complete and correct when the blank is filled with the correct answer.
 6. Generate exactly ${req.sentenceCount} sentences, each with 1–2 blanks.

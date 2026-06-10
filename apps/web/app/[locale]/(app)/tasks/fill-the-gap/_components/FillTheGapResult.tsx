@@ -1,6 +1,7 @@
 "use client";
 
 import type { DeepPartial } from "ai";
+import { Loader2 } from "lucide-react";
 import { SentenceCard } from "./SentenceCard";
 import type {
   IFillTheGapResponse,
@@ -88,13 +89,11 @@ export function FillTheGapResult({
       ))}
 
       {isLoading && readySentences.length === 0 && (
-        <div className="space-y-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-20 rounded-lg ring-1 ring-foreground/10 bg-muted/40 animate-pulse"
-            />
-          ))}
+        <div className="flex flex-col items-center justify-center gap-3 h-48 rounded-lg ring-1 ring-foreground/10 bg-background/80 backdrop-blur-sm">
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">
+            Generating your exercise…
+          </p>
         </div>
       )}
     </div>
