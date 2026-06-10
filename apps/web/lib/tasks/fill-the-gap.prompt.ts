@@ -73,9 +73,17 @@ STYLE GUIDELINES (Grammar Way):
 - Use natural, everyday language. Avoid thematic clusters (gym, travel, food).
 - Each sentence must include enough contextual clues that a student at ${req.level} level can deduce the correct answer through grammatical reasoning alone, not world knowledge or general advice.
 
+BLANK PLACEMENT RULE (Critical):
+For tense-based grammar focuses (any tense, conditional, passive voice, modal verb), the blank MUST be placed on the complete verb phrase — the auxiliary verb, the main verb, or the full auxiliary+main construction. Never place the blank on an adverb, time expression, or modifier, even if those words are associated with the tense.
+
+✗ Wrong: "She has ___ finished the report." — blank on adverb "just"; options like just/already/recently all fit equally well, so there is no unambiguous correct answer.
+✓ Right: "She ___ the report since Monday." — blank on "has been writing"; options are different tense forms: has been writing / wrote / is writing / had written — only one is grammatically correct.
+
+The student must demonstrate knowledge of the grammatical form itself, not placement of an adverb.
+
 STRUCTURAL RULES FOR BLANKS:
 1. A blank must never be the first word of a sentence.
-2. All options (4–5 choices) must be the same grammatical word class as the correct answer (e.g. all verbs, all nouns).
+2. For tense-based grammar focuses, all options must be different tense forms of the same verb (e.g. has written / wrote / is writing / had written / will write). The student is choosing the correct grammatical form — not the correct vocabulary word.
 3. Each distractor must have exactly one clear reason it is wrong in this specific sentence — wrong tense form, wrong collocation with the surrounding words, grammatically impossible in this context, or a false friend of the correct answer. The reason must be specific to the sentence context, not a general semantic judgment.
 3a. Near-synonyms that also fit the sentence are forbidden. If a learner could plausibly choose a distractor and still be correct, it is not a valid distractor. Distractors must be from the same word class as the correct answer but wrong for a concrete, explainable reason tied to this sentence.
 3b. Antonyms and opposites are also forbidden as distractors if they produce a grammatically valid sentence. Each wrong option must be unambiguously incorrect — not merely bad advice or an undesirable action. If a learner could construct any reasonable reading in which the distractor is correct, it is not a valid distractor. Grammar-focused sentences make this easier to achieve: wrong verb forms, wrong tense, wrong conjugation, or structurally incompatible constructions are unambiguously incorrect without any semantic ambiguity.

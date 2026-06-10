@@ -95,7 +95,8 @@ describe("buildPrompt", () => {
     expect(buildPrompt(base)).toContain("AGE GROUP MODIFIERS");
   });
 
-  it("includes the structural rule about word class", () => {
-    expect(buildPrompt(base)).toContain("same grammatical word class");
+  it("includes the blank placement rule requiring verb-form blanks", () => {
+    expect(buildPrompt(base)).toContain("BLANK PLACEMENT RULE");
+    expect(buildPrompt(base)).toContain("complete verb phrase");
   });
 });
