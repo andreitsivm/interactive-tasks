@@ -6,7 +6,7 @@ import {
 
 describe("FillTheGapRequestSchema", () => {
   const valid = {
-    topic: "animals",
+    grammarFocus: "Present simple",
     level: "B1",
     language: "en",
     sentenceCount: 5,
@@ -17,9 +17,10 @@ describe("FillTheGapRequestSchema", () => {
     expect(FillTheGapRequestSchema.safeParse(valid).success).toBe(true);
   });
 
-  it("rejects topic shorter than 3 characters", () => {
+  it("rejects grammarFocus shorter than 3 characters", () => {
     expect(
-      FillTheGapRequestSchema.safeParse({ ...valid, topic: "ab" }).success,
+      FillTheGapRequestSchema.safeParse({ ...valid, grammarFocus: "ab" })
+        .success,
     ).toBe(false);
   });
 
@@ -40,17 +41,6 @@ describe("FillTheGapRequestSchema", () => {
     expect(
       FillTheGapRequestSchema.safeParse({ ...valid, level: "D1" }).success,
     ).toBe(false);
-  });
-
-  it("accepts optional customWords array", () => {
-    const result = FillTheGapRequestSchema.safeParse({
-      ...valid,
-      customWords: ["jump", "run"],
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.customWords).toEqual(["jump", "run"]);
-    }
   });
 });
 

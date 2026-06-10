@@ -1,6 +1,7 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Square } from "lucide-react";
@@ -8,15 +9,18 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { IFillTheGapRequest } from "@workspace/types";
+import { GRAMMAR_POINTS } from "@/lib/tasks/fill-the-gap.grammar-points";
 
 const formSchema = z.object({
-  topic: z.string().min(3, "At least 3 characters"),
+  grammarFocus: z.string().min(1, "Select a grammar point"),
   level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
   language: z.enum(["en", "ua", "de", "fr"]),
   sentenceCount: z
@@ -24,12 +28,17 @@ const formSchema = z.object({
     .transform(Number)
     .pipe(z.number().int().min(3, "Minimum 3").max(10, "Maximum 10")),
   ageGroup: z.enum(["child", "teen", "adult"]),
-  customWordsRaw: z.string().max(1000).optional(),
 });
 
 // Input type: sentenceCount is string (from HTML number input) → transformed to number by schema
 type FormValues = z.input<typeof formSchema>;
 type FormOutput = z.output<typeof formSchema>;
+
+const LEVEL_GROUPS = [
+  { label: "A1 – A2", levels: ["A1", "A2"] as const },
+  { label: "B1 – B2", levels: ["B1", "B2"] as const },
+  { label: "C1 – C2", levels: ["C1", "C2"] as const },
+] as const;
 
 interface FillTheGapFormProps {
   onSubmit: (data: IFillTheGapRequest) => void;
@@ -46,10 +55,13 @@ export function FillTheGapForm({
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    setValue,
+    formState: { errors, isValid },
   } = useForm<FormValues, unknown, FormOutput>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
     defaultValues: {
+      grammarFocus: "",
       sentenceCount: "5",
       level: "B1",
       language: "en",
@@ -57,19 +69,23 @@ export function FillTheGapForm({
     },
   });
 
+  const watchedLevel = useWatch({ control, name: "level" });
+
+  const availablePoints = GRAMMAR_POINTS.filter((p) =>
+    p.levels.includes(watchedLevel),
+  );
+
+  useEffect(() => {
+    setValue("grammarFocus", "");
+  }, [watchedLevel, setValue]);
+
   function handleValid(values: FormOutput) {
     onSubmit({
-      topic: values.topic,
+      grammarFocus: values.grammarFocus,
       level: values.level,
       language: values.language,
       sentenceCount: values.sentenceCount,
       ageGroup: values.ageGroup,
-      customWords: values.customWordsRaw
-        ? values.customWordsRaw
-            .split(",")
-            .map((w) => w.trim())
-            .filter(Boolean)
-        : undefined,
     });
   }
 
@@ -81,18 +97,42 @@ export function FillTheGapForm({
       <CardContent>
         <form onSubmit={handleSubmit(handleValid)} className="space-y-4">
           <div className="space-y-1.5">
-            <label htmlFor="ftg-topic" className="text-sm font-medium">
-              Topic
+            <label htmlFor="ftg-grammar-focus" className="text-sm font-medium">
+              Grammar Focus
             </label>
-            <input
-              id="ftg-topic"
-              {...register("topic")}
-              maxLength={100}
-              placeholder="e.g. animals, travel, daily routines"
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
+            <Controller
+              name="grammarFocus"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger id="ftg-grammar-focus" className="w-full">
+                    <SelectValue placeholder="Select a grammar point" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(() => {
+                      const activeGroup = LEVEL_GROUPS.find((g) =>
+                        g.levels.some((l) => l === watchedLevel),
+                      );
+                      if (!activeGroup) return null;
+                      return (
+                        <SelectGroup>
+                          <SelectLabel>{activeGroup.label}</SelectLabel>
+                          {availablePoints.map((p) => (
+                            <SelectItem key={p.value} value={p.value}>
+                              {p.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      );
+                    })()}
+                  </SelectContent>
+                </Select>
+              )}
             />
-            {errors.topic && (
-              <p className="text-xs text-destructive">{errors.topic.message}</p>
+            {errors.grammarFocus && (
+              <p className="text-xs text-destructive">
+                {errors.grammarFocus.message}
+              </p>
             )}
           </div>
 
@@ -186,22 +226,6 @@ export function FillTheGapForm({
             />
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="ftg-custom-words" className="text-sm font-medium">
-              Custom words{" "}
-              <span className="font-normal text-muted-foreground">
-                (optional, comma-separated)
-              </span>
-            </label>
-            <input
-              id="ftg-custom-words"
-              {...register("customWordsRaw")}
-              maxLength={1000}
-              placeholder="e.g. jump, run, swim"
-              className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/30"
-            />
-          </div>
-
           {isLoading ? (
             <Button
               type="button"
@@ -213,7 +237,7 @@ export function FillTheGapForm({
               Stop
             </Button>
           ) : (
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={!isValid}>
               Generate
             </Button>
           )}

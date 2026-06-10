@@ -62,15 +62,15 @@ describe("getAgeGroupModifiers", () => {
 
 describe("buildPrompt", () => {
   const base: IFillTheGapRequest = {
-    topic: "space exploration",
+    grammarFocus: "Present simple (habits & facts)",
     level: "B1",
     language: "en",
     sentenceCount: 5,
     ageGroup: "adult",
   };
 
-  it("includes the topic", () => {
-    expect(buildPrompt(base)).toContain("space exploration");
+  it("includes the grammar focus", () => {
+    expect(buildPrompt(base)).toContain("Present simple");
   });
 
   it("includes the CEFR level label", () => {
@@ -97,24 +97,5 @@ describe("buildPrompt", () => {
 
   it("includes the structural rule about word class", () => {
     expect(buildPrompt(base)).toContain("same grammatical word class");
-  });
-
-  it("includes the custom words hint when customWords is provided", () => {
-    const req: IFillTheGapRequest = {
-      ...base,
-      customWords: ["orbit", "gravity"],
-    };
-    const output = buildPrompt(req);
-    expect(output).toContain("orbit");
-    expect(output).toContain("gravity");
-  });
-
-  it("omits the custom words hint when customWords is absent", () => {
-    expect(buildPrompt(base)).not.toContain("Preferred words");
-  });
-
-  it("omits the custom words hint when customWords is an empty array", () => {
-    const req: IFillTheGapRequest = { ...base, customWords: [] };
-    expect(buildPrompt(req)).not.toContain("Preferred words");
   });
 });
