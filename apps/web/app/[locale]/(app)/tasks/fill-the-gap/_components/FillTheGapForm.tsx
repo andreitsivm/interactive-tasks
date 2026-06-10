@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -61,7 +60,7 @@ export function FillTheGapForm({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      grammarFocus: "",
+      grammarFocus: "Present perfect (experience & recent past)",
       sentenceCount: "5",
       level: "B1",
       language: "en",
@@ -74,10 +73,6 @@ export function FillTheGapForm({
   const availablePoints = GRAMMAR_POINTS.filter((p) =>
     p.levels.includes(watchedLevel),
   );
-
-  useEffect(() => {
-    setValue("grammarFocus", "");
-  }, [watchedLevel, setValue]);
 
   function handleValid(values: FormOutput) {
     onSubmit({
@@ -118,7 +113,7 @@ export function FillTheGapForm({
                         <SelectGroup>
                           <SelectLabel>{activeGroup.label}</SelectLabel>
                           {availablePoints.map((p) => (
-                            <SelectItem key={p.value} value={p.value}>
+                            <SelectItem key={p.value} value={p.label}>
                               {p.label}
                             </SelectItem>
                           ))}
@@ -144,7 +139,13 @@ export function FillTheGapForm({
               name="level"
               control={control}
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={(val) => {
+                    field.onChange(val);
+                    setValue("grammarFocus", "");
+                  }}
+                >
                   <SelectTrigger id="ftg-level" className="w-full">
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
