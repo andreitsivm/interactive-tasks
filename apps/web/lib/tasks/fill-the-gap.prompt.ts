@@ -76,7 +76,8 @@ ${getAgeGroupModifiers(req.ageGroup)}
 STRUCTURAL RULES FOR BLANKS:
 1. A blank must never be the first word of a sentence.
 2. All options (4–5 choices) must be the same grammatical word class as the correct answer (e.g. all verbs, all nouns).
-3. Distractors must reflect errors typical of learners at ${req.level} level — not random words.
+3. Each distractor must have exactly one clear reason it is wrong in this specific sentence — wrong tense form, wrong collocation with the surrounding words, grammatically impossible in this context, or a false friend of the correct answer. The reason must be specific to the sentence context, not a general semantic judgment.
+3a. Near-synonyms that also fit the sentence are forbidden. If a learner could plausibly choose a distractor and still be correct, it is not a valid distractor. Distractors must be from the same word class as the correct answer but wrong for a concrete, explainable reason tied to this sentence.
 4. The correct answer must unambiguously fit the surrounding context; no trick questions.
 5. Each sentence must be grammatically complete and correct when the blank is filled with the correct answer.
 6. Generate exactly ${req.sentenceCount} sentences, each with 1–2 blanks.
