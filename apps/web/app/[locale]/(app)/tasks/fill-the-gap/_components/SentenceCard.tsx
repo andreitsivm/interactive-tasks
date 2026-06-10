@@ -19,20 +19,18 @@ interface SentenceCardProps {
 
 export function SentenceCard({ sentence, index }: SentenceCardProps) {
   const [selections, setSelections] = useState<Record<string, string>>({});
-  const [isChecked, setIsChecked] = useState(false);
 
   const blankMap = Object.fromEntries(sentence.blanks.map((b) => [b.id, b]));
   const allFilled = sentence.blanks.every(
     (b) => selections[b.id] !== undefined,
   );
-
-  function handleCheck() {
-    setIsChecked(true);
-  }
+  const score = sentence.blanks.filter(
+    (b) => selections[b.id] === b.correctAnswer,
+  ).length;
+  const total = sentence.blanks.length;
 
   function handleReset() {
     setSelections({});
-    setIsChecked(false);
   }
 
   return (
@@ -49,11 +47,10 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
           const blank = blankMap[seg.blankId];
           if (!blank) return null;
           const selected = selections[blank.id];
-          const isCorrect = isChecked && selected === blank.correctAnswer;
+          const isCorrect =
+            selected !== undefined && selected === blank.correctAnswer;
           const isWrong =
-            isChecked &&
-            selected !== undefined &&
-            selected !== blank.correctAnswer;
+            selected !== undefined && selected !== blank.correctAnswer;
 
           return (
             <span key={i} className="inline-flex flex-col items-center gap-0.5">
@@ -61,7 +58,6 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
                 value={selected ?? ""}
                 onValueChange={(val) => {
                   setSelections((prev) => ({ ...prev, [blank.id]: val }));
-                  setIsChecked(false);
                 }}
               >
                 <SelectTrigger
@@ -73,7 +69,7 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
                 >
                   <SelectValue placeholder="___" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent position="popper">
                   {blank.options
                     .filter((opt) => opt.length > 0)
                     .map((opt, i) => (
@@ -92,16 +88,18 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
           );
         })}
       </div>
-      <div className="flex gap-2 pt-1">
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={handleCheck}
-          disabled={!allFilled || isChecked}
-        >
-          Check
-        </Button>
-        {isChecked && (
+      <div className="flex items-center gap-3 pt-1">
+        {allFilled && (
+          <p
+            className={cn(
+              "text-xs font-medium",
+              score === total ? "text-green-600" : "text-amber-600",
+            )}
+          >
+            {score} / {total} correct
+          </p>
+        )}
+        {Object.keys(selections).length > 0 && (
           <Button size="sm" variant="ghost" onClick={handleReset}>
             Reset
           </Button>
