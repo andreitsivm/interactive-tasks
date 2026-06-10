@@ -19,7 +19,12 @@ import type { IFillTheGapRequest } from "@workspace/types";
 import { GRAMMAR_POINTS } from "@/lib/tasks/fill-the-gap.grammar-points";
 
 const formSchema = z.object({
-  grammarFocus: z.string().min(1, "Select a grammar point"),
+  grammarFocus: z
+    .string()
+    .min(1, "Select a grammar point")
+    .refine((val) => GRAMMAR_POINTS.some((p) => p.label === val), {
+      message: "Select a valid grammar point",
+    }),
   level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
   language: z.enum(["en", "ua", "de", "fr"]),
   sentenceCount: z
@@ -68,7 +73,7 @@ export function FillTheGapForm({
     },
   });
 
-  const watchedLevel = useWatch({ control, name: "level" });
+  const watchedLevel = useWatch({ control, name: "level", defaultValue: "B1" });
 
   const availablePoints = GRAMMAR_POINTS.filter((p) =>
     p.levels.includes(watchedLevel),
