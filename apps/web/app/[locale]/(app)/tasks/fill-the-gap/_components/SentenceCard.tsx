@@ -10,7 +10,50 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import type { ISentence } from "@/lib/tasks/fill-the-gap.schema";
+import type { IBlank, ISentence } from "@/lib/tasks/fill-the-gap.schema";
+
+interface BlankSelectProps {
+  blank: IBlank;
+  selected: string | undefined;
+  onValueChange: (val: string) => void;
+}
+
+function BlankSelect({ blank, selected, onValueChange }: BlankSelectProps) {
+  const [options] = useState(() =>
+    [...blank.options]
+      .filter((opt) => opt.length > 0)
+      .sort(() => Math.random() - 0.5),
+  );
+
+  const isCorrect = selected !== undefined && selected === blank.correctAnswer;
+  const isWrong = selected !== undefined && selected !== blank.correctAnswer;
+
+  return (
+    <span className="inline-flex flex-col items-center gap-0.5">
+      <Select value={selected ?? ""} onValueChange={onValueChange}>
+        <SelectTrigger
+          className={cn(
+            "min-w-24 h-7",
+            isCorrect && "border-green-500 text-green-600",
+            isWrong && "border-destructive text-destructive",
+          )}
+        >
+          <SelectValue placeholder="___" />
+        </SelectTrigger>
+        <SelectContent position="popper">
+          {options.map((opt, i) => (
+            <SelectItem key={`${blank.id}-${i}`} value={opt}>
+              {opt}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {isWrong && (
+        <span className="text-xs text-green-600">{blank.correctAnswer}</span>
+      )}
+    </span>
+  );
+}
 
 interface SentenceCardProps {
   sentence: ISentence;
@@ -46,45 +89,16 @@ export function SentenceCard({ sentence, index }: SentenceCardProps) {
 
           const blank = blankMap[seg.blankId];
           if (!blank) return null;
-          const selected = selections[blank.id];
-          const isCorrect =
-            selected !== undefined && selected === blank.correctAnswer;
-          const isWrong =
-            selected !== undefined && selected !== blank.correctAnswer;
 
           return (
-            <span key={i} className="inline-flex flex-col items-center gap-0.5">
-              <Select
-                value={selected ?? ""}
-                onValueChange={(val) => {
-                  setSelections((prev) => ({ ...prev, [blank.id]: val }));
-                }}
-              >
-                <SelectTrigger
-                  className={cn(
-                    "min-w-24 h-7",
-                    isCorrect && "border-green-500 text-green-600",
-                    isWrong && "border-destructive text-destructive",
-                  )}
-                >
-                  <SelectValue placeholder="___" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  {blank.options
-                    .filter((opt) => opt.length > 0)
-                    .map((opt, i) => (
-                      <SelectItem key={`${blank.id}-${i}`} value={opt}>
-                        {opt}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              {isWrong && (
-                <span className="text-xs text-green-600">
-                  {blank.correctAnswer}
-                </span>
-              )}
-            </span>
+            <BlankSelect
+              key={i}
+              blank={blank}
+              selected={selections[blank.id]}
+              onValueChange={(val) =>
+                setSelections((prev) => ({ ...prev, [blank.id]: val }))
+              }
+            />
           );
         })}
       </div>
