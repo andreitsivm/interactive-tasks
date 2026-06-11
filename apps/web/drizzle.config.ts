@@ -1,6 +1,6 @@
 import { defineConfig } from 'drizzle-kit';
 
-const isRailway = process.env.IS_RAILWAY;
+const isRailway = process.env.RAILWAY_PROJECT_ID;
 export const dataBaseUrl = isRailway
   ? process.env.DATABASE_URL!
   : process.env.DATABASE_PUBLIC_URL!;
