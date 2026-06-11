@@ -8,23 +8,23 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import type { IFillTheGapRequest } from "@workspace/types";
 import { GRAMMAR_POINTS } from "@/lib/tasks/fill-the-gap.grammar-points";
 
 const formSchema = z.object({
   grammarFocus: z
-    .string()
-    .min(1, "Select a grammar point")
-    .refine((val) => GRAMMAR_POINTS.some((p) => p.label === val), {
-      message: "Select a valid grammar point",
-    }),
+    .array(z.string())
+    .min(1, "Select at least one grammar point")
+    .refine(
+      (arr) => arr.every((val) => GRAMMAR_POINTS.some((p) => p.label === val)),
+      { message: "Invalid grammar point selected" },
+    ),
   level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
   language: z.enum(["en", "ua", "de", "fr"]),
   sentenceCount: z
@@ -34,15 +34,8 @@ const formSchema = z.object({
   ageGroup: z.enum(["child", "teen", "adult"]),
 });
 
-// Input type: sentenceCount is string (from HTML number input) → transformed to number by schema
 type FormValues = z.input<typeof formSchema>;
 type FormOutput = z.output<typeof formSchema>;
-
-const LEVEL_GROUPS = [
-  { label: "A1 – A2", levels: ["A1", "A2"] as const },
-  { label: "B1 – B2", levels: ["B1", "B2"] as const },
-  { label: "C1 – C2", levels: ["C1", "C2"] as const },
-] as const;
 
 interface FillTheGapFormProps {
   onSubmit: (data: IFillTheGapRequest) => void;
@@ -65,7 +58,7 @@ export function FillTheGapForm({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      grammarFocus: "Present perfect (experience & recent past)",
+      grammarFocus: ["Present perfect (experience & recent past)"],
       sentenceCount: "5",
       level: "B1",
       language: "en",
@@ -74,6 +67,11 @@ export function FillTheGapForm({
   });
 
   const watchedLevel = useWatch({ control, name: "level", defaultValue: "B1" });
+  const watchedGrammarFocus = useWatch({
+    control,
+    name: "grammarFocus",
+    defaultValue: ["Present perfect (experience & recent past)"],
+  });
 
   const availablePoints = GRAMMAR_POINTS.filter((p) =>
     p.levels.includes(watchedLevel),
@@ -96,46 +94,76 @@ export function FillTheGapForm({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(handleValid)} className="space-y-4">
+          {/* Grammar Focus — chip grid */}
           <div className="space-y-1.5">
-            <label htmlFor="ftg-grammar-focus" className="text-sm font-medium">
-              Grammar Focus
-            </label>
-            <Controller
-              name="grammarFocus"
-              control={control}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger id="ftg-grammar-focus" className="w-full">
-                    <SelectValue placeholder="Select a grammar point" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(() => {
-                      const activeGroup = LEVEL_GROUPS.find((g) =>
-                        g.levels.some((l) => l === watchedLevel),
-                      );
-                      if (!activeGroup) return null;
-                      return (
-                        <SelectGroup>
-                          <SelectLabel>{activeGroup.label}</SelectLabel>
-                          {availablePoints.map((p) => (
-                            <SelectItem key={p.value} value={p.label}>
-                              {p.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      );
-                    })()}
-                  </SelectContent>
-                </Select>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Grammar Focus</span>
+              {watchedGrammarFocus.length > 0 && (
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-muted-foreground">
+                    {watchedGrammarFocus.length} selected
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setValue("grammarFocus", [], { shouldValidate: true })
+                    }
+                    className="text-xs text-muted-foreground underline underline-offset-2"
+                  >
+                    Clear
+                  </button>
+                </div>
               )}
-            />
-            {errors.grammarFocus && (
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {availablePoints.map((p) => {
+                const isSelected = watchedGrammarFocus.includes(p.label);
+                return (
+                  <button
+                    key={p.value}
+                    type="button"
+                    onClick={() => {
+                      const next = isSelected
+                        ? watchedGrammarFocus.filter((l) => l !== p.label)
+                        : [...watchedGrammarFocus, p.label];
+                      setValue("grammarFocus", next, { shouldValidate: true });
+                    }}
+                    className={cn(
+                      "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                      isSelected
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-background text-foreground border-input hover:bg-accent",
+                    )}
+                  >
+                    {p.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                setValue(
+                  "grammarFocus",
+                  availablePoints.map((p) => p.label),
+                  { shouldValidate: true },
+                )
+              }
+              className="text-xs text-muted-foreground underline underline-offset-2"
+            >
+              Select all
+            </button>
+
+            {errors.grammarFocus?.root?.message && (
               <p className="text-xs text-destructive">
-                {errors.grammarFocus.message}
+                {errors.grammarFocus.root.message}
               </p>
             )}
           </div>
 
+          {/* CEFR Level */}
           <div className="space-y-1.5">
             <label htmlFor="ftg-level" className="text-sm font-medium">
               CEFR Level
@@ -148,7 +176,7 @@ export function FillTheGapForm({
                   value={field.value}
                   onValueChange={(val) => {
                     field.onChange(val);
-                    setValue("grammarFocus", "");
+                    setValue("grammarFocus", [], { shouldValidate: true });
                   }}
                 >
                   <SelectTrigger id="ftg-level" className="w-full">
@@ -168,6 +196,7 @@ export function FillTheGapForm({
             />
           </div>
 
+          {/* Language */}
           <div className="space-y-1.5">
             <label htmlFor="ftg-language" className="text-sm font-medium">
               Language
@@ -191,6 +220,7 @@ export function FillTheGapForm({
             />
           </div>
 
+          {/* Sentence count */}
           <div className="space-y-1.5">
             <label htmlFor="ftg-sentence-count" className="text-sm font-medium">
               Sentences (3–10)
@@ -210,6 +240,7 @@ export function FillTheGapForm({
             )}
           </div>
 
+          {/* Age group */}
           <div className="space-y-1.5">
             <label htmlFor="ftg-age-group" className="text-sm font-medium">
               Age Group
