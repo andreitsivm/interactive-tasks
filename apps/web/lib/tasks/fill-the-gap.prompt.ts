@@ -53,10 +53,15 @@ export function getAgeGroupModifiers(ageGroup: AgeGroup): string {
 }
 
 export function buildPrompt(req: IFillTheGapRequest): string {
+  const grammarFocusLine =
+    req.grammarFocus.length === 1
+      ? req.grammarFocus[0]
+      : `Vary the grammar across these structures — ${req.grammarFocus.join(", ")}. Use each structure at least once. Do not repeat the same structure in consecutive sentences.`;
+
   return `You are an expert English language teacher creating grammar practice exercises in the style of Grammar Way — clear, well-structured, and pedagogically purposeful. Every sentence must be specifically designed to test the grammar focus listed below. The blank must fall on the exact word or phrase that demonstrates the target structure. Do not generate sentences where the blank tests vocabulary choice — only the target grammar point.
 
 CONTEXT:
-- Grammar focus: ${req.grammarFocus}
+- Grammar focus: ${grammarFocusLine}
 - CEFR Level: ${req.level}
 - Language: ${req.language}
 - Age group: ${req.ageGroup}

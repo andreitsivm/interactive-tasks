@@ -6,21 +6,29 @@ import {
 
 describe("FillTheGapRequestSchema", () => {
   const valid = {
-    grammarFocus: "Present simple",
+    grammarFocus: ["Present simple"],
     level: "B1",
     language: "en",
     sentenceCount: 5,
     ageGroup: "adult",
   };
 
-  it("accepts a valid request", () => {
+  it("accepts a valid request with one grammar point", () => {
     expect(FillTheGapRequestSchema.safeParse(valid).success).toBe(true);
   });
 
-  it("rejects grammarFocus shorter than 3 characters", () => {
+  it("accepts a valid request with multiple grammar points", () => {
     expect(
-      FillTheGapRequestSchema.safeParse({ ...valid, grammarFocus: "ab" })
-        .success,
+      FillTheGapRequestSchema.safeParse({
+        ...valid,
+        grammarFocus: ["Present simple", "Past simple (completed actions)"],
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects an empty grammarFocus array", () => {
+    expect(
+      FillTheGapRequestSchema.safeParse({ ...valid, grammarFocus: [] }).success,
     ).toBe(false);
   });
 

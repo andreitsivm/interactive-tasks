@@ -3,7 +3,7 @@ export type Language = "en" | "ua" | "de" | "fr";
 export type AgeGroup = "child" | "teen" | "adult";
 
 export interface IFillTheGapRequest {
-  grammarFocus: string;
+  grammarFocus: string[];
   level: CefrLevel;
   language: Language;
   sentenceCount: number;

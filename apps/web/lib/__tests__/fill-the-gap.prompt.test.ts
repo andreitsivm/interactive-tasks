@@ -62,7 +62,7 @@ describe("getAgeGroupModifiers", () => {
 
 describe("buildPrompt", () => {
   const base: IFillTheGapRequest = {
-    grammarFocus: "Present simple (habits & facts)",
+    grammarFocus: ["Present simple (habits & facts)"],
     level: "B1",
     language: "en",
     sentenceCount: 5,
@@ -98,5 +98,20 @@ describe("buildPrompt", () => {
   it("includes the blank placement rule requiring verb-form blanks", () => {
     expect(buildPrompt(base)).toContain("BLANK PLACEMENT RULE");
     expect(buildPrompt(base)).toContain("complete verb phrase");
+  });
+
+  it("with multiple grammar points, instructs AI to vary structures and use each at least once", () => {
+    const multi: IFillTheGapRequest = {
+      ...base,
+      grammarFocus: [
+        "Present simple (habits & facts)",
+        "Past simple (completed actions)",
+      ],
+    };
+    const output = buildPrompt(multi);
+    expect(output).toContain("Vary the grammar across these structures");
+    expect(output).toContain("Present simple (habits & facts)");
+    expect(output).toContain("Past simple (completed actions)");
+    expect(output).toContain("Use each structure at least once");
   });
 });

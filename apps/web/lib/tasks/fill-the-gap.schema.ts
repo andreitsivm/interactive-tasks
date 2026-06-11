@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { IFillTheGapRequest } from "@workspace/types";
 
 export const FillTheGapRequestSchema = z.object({
-  grammarFocus: z.string().min(3),
+  grammarFocus: z.array(z.string()).min(1),
   level: z.enum(["A1", "A2", "B1", "B2", "C1", "C2"]),
   language: z.enum(["en", "ua", "de", "fr"]),
   sentenceCount: z.number().int().min(3).max(10),
