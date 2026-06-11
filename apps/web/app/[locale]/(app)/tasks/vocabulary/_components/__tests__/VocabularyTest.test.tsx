@@ -148,4 +148,20 @@ describe("VocabularyTest", () => {
     fireEvent.click(screen.getByRole("button", { name: "Study again" }));
     expect(onStudyAgain).toHaveBeenCalledOnce();
   });
+
+  it("calls onNewTask from completion banner", () => {
+    render(
+      <VocabularyTest
+        words={words}
+        onStudyAgain={onStudyAgain}
+        onNewTask={onNewTask}
+      />,
+    );
+    fireEvent.click(screen.getByRole("button", { name: "apple" }));
+    fireEvent.click(screen.getByRole("button", { name: "яблуко" }));
+    fireEvent.click(screen.getByRole("button", { name: "book" }));
+    fireEvent.click(screen.getByRole("button", { name: "книга" }));
+    fireEvent.click(screen.getByRole("button", { name: "New task" }));
+    expect(onNewTask).toHaveBeenCalledOnce();
+  });
 });
