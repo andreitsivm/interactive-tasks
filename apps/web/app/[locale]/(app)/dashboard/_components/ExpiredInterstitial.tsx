@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 import { initializePaddle } from "@paddle/paddle-js";
 import type { Paddle } from "@paddle/paddle-js";
 import { siteConfig } from "@/config/site";
@@ -18,6 +18,7 @@ export function ExpiredInterstitial({
   priceId,
 }: ExpiredInterstitialProps) {
   const [paddle, setPaddle] = useState<Paddle | undefined>();
+  const [initError, setInitError] = useState(false);
 
   useEffect(() => {
     if (!siteConfig.paddle.clientToken) return;
@@ -28,6 +29,7 @@ export function ExpiredInterstitial({
       .then(setPaddle)
       .catch((err: unknown) => {
         console.error("[expired] Paddle init failed:", err);
+        setInitError(true);
       });
   }, []);
 
@@ -48,13 +50,22 @@ export function ExpiredInterstitial({
         <p className="text-muted-foreground mb-6">
           Upgrade to Pro to regain access to all features.
         </p>
+        <Activity mode={initError ? "visible" : "hidden"}>
+          <p className="text-xs text-destructive mb-2" role="alert">
+            Payment system unavailable. Please refresh or try again later.
+          </p>
+        </Activity>
         <Button
           size="lg"
           className="w-full"
           onClick={handleUpgrade}
-          disabled={!paddle || !priceId}
+          disabled={!paddle || !priceId || initError}
         >
-          {paddle ? "Upgrade to Pro" : "Loading…"}
+          {initError
+            ? "Upgrade unavailable"
+            : paddle
+              ? "Upgrade to Pro"
+              : "Loading…"}
         </Button>
       </div>
     </div>

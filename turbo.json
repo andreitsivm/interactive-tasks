@@ -6,6 +6,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**"],
+      "passThroughEnv": ["NESTJS_API_URL"],
       "env": [
         "NODE_ENV",
         "DATABASE_URL",
@@ -27,6 +28,7 @@
     },
     "lint": {
       "dependsOn": ["^lint"],
+      "passThroughEnv": ["NESTJS_API_URL"],
       "env": [
         "NODE_ENV",
         "DATABASE_URL",

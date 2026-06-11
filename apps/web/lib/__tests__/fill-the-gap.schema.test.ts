@@ -6,20 +6,29 @@ import {
 
 describe("FillTheGapRequestSchema", () => {
   const valid = {
-    topic: "animals",
+    grammarFocus: ["Present simple"],
     level: "B1",
     language: "en",
     sentenceCount: 5,
     ageGroup: "adult",
   };
 
-  it("accepts a valid request", () => {
+  it("accepts a valid request with one grammar point", () => {
     expect(FillTheGapRequestSchema.safeParse(valid).success).toBe(true);
   });
 
-  it("rejects topic shorter than 3 characters", () => {
+  it("accepts a valid request with multiple grammar points", () => {
     expect(
-      FillTheGapRequestSchema.safeParse({ ...valid, topic: "ab" }).success,
+      FillTheGapRequestSchema.safeParse({
+        ...valid,
+        grammarFocus: ["Present simple", "Past simple (completed actions)"],
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects an empty grammarFocus array", () => {
+    expect(
+      FillTheGapRequestSchema.safeParse({ ...valid, grammarFocus: [] }).success,
     ).toBe(false);
   });
 
@@ -40,17 +49,6 @@ describe("FillTheGapRequestSchema", () => {
     expect(
       FillTheGapRequestSchema.safeParse({ ...valid, level: "D1" }).success,
     ).toBe(false);
-  });
-
-  it("accepts optional customWords array", () => {
-    const result = FillTheGapRequestSchema.safeParse({
-      ...valid,
-      customWords: ["jump", "run"],
-    });
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.customWords).toEqual(["jump", "run"]);
-    }
   });
 });
 

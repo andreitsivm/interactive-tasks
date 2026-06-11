@@ -1,6 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
-import Image from "next/image";
 import { Link } from "@/i18n/routing";
+import { Logo } from "@/components/Logo";
 import { siteConfig } from "@/config/site";
 import { Separator } from "@/components/ui/separator";
 import { LocaleSwitcher } from "./LocaleSwitcher";
@@ -18,12 +18,7 @@ export async function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/logo.svg"
-                alt={siteConfig.name}
-                width={32}
-                height={32}
-              />
+              <Logo size={32} />
               <span className="font-semibold">{siteConfig.name}</span>
             </Link>
             <p className="text-sm text-muted-foreground">{t("tagline")}</p>
