@@ -139,6 +139,15 @@
     max-width: 100vw;
     overflow-x: hidden;
   }
+  html {
+    scrollbar-gutter: stable;
+  }
+  /* scrollbar-gutter: stable already reserves the scrollbar slot, so
+     react-remove-scroll-bar's margin-right compensation is redundant and
+     causes a 15px layout shift when any Radix overlay opens. Cancel it. */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
+  }
   * {
     box-sizing: border-box;
     padding: 0;
