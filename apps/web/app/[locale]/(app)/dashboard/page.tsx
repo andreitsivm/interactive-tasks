@@ -11,7 +11,7 @@ import {
 import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/config/site";
 
-const IMPLEMENTED_SLUGS = new Set(["fill-the-gap"]);
+const IMPLEMENTED_SLUGS = new Set(["fill-the-gap", "vocabulary"]);
 
 const TASK_DESCRIPTIONS: Record<string, string> = {
   "fill-the-gap": "Generate interactive fill-in-the-blank exercises.",

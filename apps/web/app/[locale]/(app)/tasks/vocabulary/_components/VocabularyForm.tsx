@@ -41,7 +41,6 @@ interface VocabularyFormProps {
 }
 
 export function VocabularyForm({
-  translationLanguage: _translationLanguage,
   onSubmit,
   isLoading,
   onStop,
