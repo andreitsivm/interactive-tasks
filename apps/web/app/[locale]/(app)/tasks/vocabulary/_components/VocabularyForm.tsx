@@ -41,7 +41,7 @@ interface VocabularyFormProps {
 }
 
 export function VocabularyForm({
-  translationLanguage,
+  translationLanguage: _translationLanguage,
   onSubmit,
   isLoading,
   onStop,
@@ -89,10 +89,6 @@ export function VocabularyForm({
   function handleValid(values: FormValues) {
     onSubmit({ ...values, wordList });
   }
-
-  // translationLanguage is derived from locale in parent and passed through;
-  // it is not shown as a form field but is referenced to satisfy the prop contract.
-  void translationLanguage;
 
   return (
     <Card>
