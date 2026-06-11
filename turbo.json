@@ -8,7 +8,7 @@
       "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**", "dist/**"],
       "passThroughEnv": ["NESTJS_API_URL"],
       "env": [
-        "IS_RAILWAY",
+        "RAILWAY_PROJECT_ID",
         "NODE_ENV",
         "DATABASE_URL",
         "DATABASE_PUBLIC_URL",
@@ -31,7 +31,7 @@
       "dependsOn": ["^lint"],
       "passThroughEnv": ["NESTJS_API_URL"],
       "env": [
-        "IS_RAILWAY",
+        "RAILWAY_PROJECT_ID",
         "NODE_ENV",
         "DATABASE_URL",
         "DATABASE_PUBLIC_URL",
