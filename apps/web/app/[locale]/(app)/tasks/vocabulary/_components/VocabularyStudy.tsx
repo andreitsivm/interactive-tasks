@@ -16,7 +16,7 @@ export function VocabularyStudy({ words, onStartTest }: VocabularyStudyProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  const word = words[currentIndex];
+  const word = words[currentIndex]!;
 
   function goTo(index: number) {
     setCurrentIndex(index);
@@ -49,14 +49,14 @@ export function VocabularyStudy({ words, onStartTest }: VocabularyStudyProps) {
           <CardContent className="text-center p-8">
             {isFlipped ? (
               <div className="space-y-3 animate-in fade-in duration-200">
-                <p className="text-2xl font-bold">{word?.translation}</p>
+                <p className="text-2xl font-bold">{word.translation}</p>
                 <p className="text-sm text-muted-foreground italic">
-                  {word?.exampleSentence}
+                  {word.exampleSentence}
                 </p>
               </div>
             ) : (
               <p className="text-3xl font-bold animate-in fade-in duration-200">
-                {word?.word}
+                {word.word}
               </p>
             )}
           </CardContent>

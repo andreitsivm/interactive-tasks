@@ -19,6 +19,7 @@ export function VocabularyContainer() {
   const [phase, setPhase] = useState<VocabularyPhase>("idle");
   const [words, setWords] = useState<VocabularyWordWithId[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [generationId, setGenerationId] = useState(0);
 
   const { submit, stop, isLoading } = useObject({
     api: "/api/tasks/vocabulary/generate",
@@ -46,6 +47,7 @@ export function VocabularyContainer() {
     data: Omit<IVocabularyRequest, "translationLanguage">,
   ) {
     setError(null);
+    setGenerationId((n) => n + 1);
     setPhase("generating");
     submit({ ...data, translationLanguage: locale });
   }
@@ -62,9 +64,8 @@ export function VocabularyContainer() {
   return (
     <div className="flex gap-6">
       {/* Left sidebar — form */}
-      <aside className="w-[380px] shrink-0">
+      <aside className="w-95 shrink-0 sticky top-8 self-start">
         <VocabularyForm
-          translationLanguage={locale}
           onSubmit={handleFormSubmit}
           isLoading={isLoading}
           onStop={stop}
@@ -112,7 +113,7 @@ export function VocabularyContainer() {
 
         {phase === "testing" && (
           <VocabularyTest
-            key={words.map((w) => w.id).join(",")}
+            key={generationId}
             words={words}
             onStudyAgain={() => setPhase("studying")}
             onNewTask={handleReconfigure}

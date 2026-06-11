@@ -32,7 +32,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 interface VocabularyFormProps {
-  translationLanguage: string;
   onSubmit: (data: Omit<IVocabularyRequest, "translationLanguage">) => void;
   isLoading: boolean;
   onStop: () => void;
