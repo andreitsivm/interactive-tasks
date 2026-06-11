@@ -164,4 +164,48 @@ describe("VocabularyTest", () => {
     fireEvent.click(screen.getByRole("button", { name: "New task" }));
     expect(onNewTask).toHaveBeenCalledOnce();
   });
+
+  it("blocks new interaction during flash", async () => {
+    render(
+      <VocabularyTest
+        words={words}
+        onStudyAgain={onStudyAgain}
+        onNewTask={onNewTask}
+      />,
+    );
+    // incorrect match: apple ↔ книга
+    fireEvent.click(screen.getByRole("button", { name: "apple" }));
+    fireEvent.click(screen.getByRole("button", { name: "книга" }));
+    // during flash, clicking left column is a no-op
+    fireEvent.click(screen.getByRole("button", { name: "book" }));
+    expect(screen.getByRole("button", { name: "book" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+    // advance past flash
+    act(() => vi.advanceTimersByTime(600));
+    // now clicks work again
+    fireEvent.click(screen.getByRole("button", { name: "book" }));
+    expect(screen.getByRole("button", { name: "book" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+  });
+
+  it("ignores right-column click during flash", async () => {
+    render(
+      <VocabularyTest
+        words={words}
+        onStudyAgain={onStudyAgain}
+        onNewTask={onNewTask}
+      />,
+    );
+    // incorrect match
+    fireEvent.click(screen.getByRole("button", { name: "apple" }));
+    fireEvent.click(screen.getByRole("button", { name: "книга" }));
+    // try to click a translation during flash — should be no-op (progress stays 0)
+    fireEvent.click(screen.getByRole("button", { name: "яблуко" }));
+    expect(screen.getByText("0 / 2 matched")).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(600));
+  });
 });

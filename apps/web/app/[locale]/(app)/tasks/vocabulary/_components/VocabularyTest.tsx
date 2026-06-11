@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { shuffleArray } from "@/lib/tasks/vocabulary.utils";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,15 @@ export function VocabularyTest({
     leftId: string;
     rightId: string;
   } | null>(null);
+  const flashTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimeoutRef.current !== null) {
+        clearTimeout(flashTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const isDone = matched.size === words.length;
 
@@ -42,7 +51,10 @@ export function VocabularyTest({
       const leftId = selectedLeftId;
       setSelectedLeftId(null);
       setFlashPair({ leftId, rightId: id });
-      setTimeout(() => setFlashPair(null), 600);
+      flashTimeoutRef.current = setTimeout(() => {
+        setFlashPair(null);
+        flashTimeoutRef.current = null;
+      }, 600);
     }
   }
 
