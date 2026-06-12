@@ -24,6 +24,8 @@
     "@paddle/paddle-js": "^1.6.4",
     "@paddle/paddle-node-sdk": "^3.8.0",
     "@tailwindcss/postcss": "^4.3.0",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "@workspace/mail": "workspace:*",
     "@workspace/types": "workspace:*",
     "@workspace/ui": "workspace:*",
