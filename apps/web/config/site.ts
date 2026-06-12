@@ -25,10 +25,6 @@ export const siteConfig = {
       slug: "fill-the-gap",
       label: { en: "Fill the Gap", ua: "Заповни пропуск" },
     },
-    {
-      slug: "image-word",
-      label: { en: "Image → Word", ua: "Картинка → Слово" },
-    },
     { slug: "association", label: { en: "Associations", ua: "Асоціації" } },
     {
       slug: "vocabulary",
