@@ -10,3 +10,4 @@ export type {
   IVocabularyWord,
   IVocabularyResponse,
 } from "./vocabulary";
+export type { IAssociationsRequest } from "./associations";
