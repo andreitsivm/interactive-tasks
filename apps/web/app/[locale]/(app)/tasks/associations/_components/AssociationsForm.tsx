@@ -67,9 +67,12 @@ export function AssociationsForm({
       <CardContent>
         <form onSubmit={handleSubmit(handleValid)} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Topic</label>
+            <label htmlFor="topic" className="text-sm font-medium">
+              Topic
+            </label>
             <input
               {...register("topic")}
+              id="topic"
               type="text"
               placeholder="e.g. marine biology, cooking, space"
               disabled={isLoading}
@@ -81,7 +84,9 @@ export function AssociationsForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Level</label>
+            <label htmlFor="level" className="text-sm font-medium">
+              Level
+            </label>
             <Controller
               name="level"
               control={control}
@@ -91,7 +96,7 @@ export function AssociationsForm({
                   onValueChange={field.onChange}
                   disabled={isLoading}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="level">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -109,7 +114,9 @@ export function AssociationsForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Language</label>
+            <label htmlFor="language" className="text-sm font-medium">
+              Language
+            </label>
             <Controller
               name="language"
               control={control}
@@ -119,7 +126,7 @@ export function AssociationsForm({
                   onValueChange={field.onChange}
                   disabled={isLoading}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="language">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -134,7 +141,9 @@ export function AssociationsForm({
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium">Word count</label>
+            <label htmlFor="wordCount" className="text-sm font-medium">
+              Word count
+            </label>
             <Controller
               name="wordCount"
               control={control}
@@ -144,7 +153,7 @@ export function AssociationsForm({
                   onValueChange={field.onChange}
                   disabled={isLoading}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="wordCount">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

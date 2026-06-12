@@ -44,7 +44,6 @@ interface AssociationsResultsProps {
   poolWords: string[];
   associationWords: string[];
   associatedWords: string[];
-  distractors: string[];
   onTryAgain: () => void;
   onNewTask: () => void;
 }
@@ -54,7 +53,6 @@ export function AssociationsResults({
   poolWords,
   associationWords,
   associatedWords,
-  distractors: _distractors,
   onTryAgain,
   onNewTask,
 }: AssociationsResultsProps) {
