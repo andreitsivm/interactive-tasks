@@ -7,8 +7,8 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com",
   ogImage: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://example.com"}/og.png`,
   description: {
-    en: "AI-powered platform for creating fill-the-gap tests, image-word matching, and other interactive educational tasks — configurable by topic, level, age group, and language.",
-    ua: "AI-платформа для створення тестів fill-the-gap, картинка-слово та інших інтерактивних навчальних завдань — гнучке налаштування теми, рівня, вікової групи та мови.",
+    en: "AI-powered platform for creating fill-the-gap tests, vocabulary exercises, word associations, and other interactive educational tasks — configurable by topic, level, and language.",
+    ua: "AI-платформа для створення тестів fill-the-gap, словникових вправ, асоціацій та інших інтерактивних навчальних завдань — гнучке налаштування теми, рівня та мови.",
   },
   links: {
     twitter: "",
@@ -25,7 +25,7 @@ export const siteConfig = {
       slug: "fill-the-gap",
       label: { en: "Fill the Gap", ua: "Заповни пропуск" },
     },
-    { slug: "association", label: { en: "Associations", ua: "Асоціації" } },
+    { slug: "associations", label: { en: "Associations", ua: "Асоціації" } },
     {
       slug: "vocabulary",
       label: { en: "Vocabulary", ua: "Словниковий запас" },

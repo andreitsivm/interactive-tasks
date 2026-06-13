@@ -1,7 +1,7 @@
 import type { IAssociationsRequest } from "@workspace/types";
 
 export function buildAssociationsPrompt(req: IAssociationsRequest): string {
-  const associatedCount = req.wordCount / 2;
+  const associatedCount = Math.floor(req.wordCount / 2);
   const distractorCount = req.wordCount - associatedCount;
 
   return `You are an expert language teacher creating vocabulary association exercises.
