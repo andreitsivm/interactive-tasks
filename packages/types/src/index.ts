@@ -8,4 +8,8 @@ export type {
   Language,
   AgeGroup,
   IFillTheGapRequest,
+  IVocabularyRequest,
+  IVocabularyResponse,
+  IVocabularyWord,
+  IAssociationsRequest,
 } from "./dtos/index";

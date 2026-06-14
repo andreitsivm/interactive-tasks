@@ -1,5 +1,7 @@
 import { getLocale } from "next-intl/server";
 import { Onest } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -21,7 +23,11 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={cn("font-sans", onest.variable)}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <SpeedInsights />
+        <Analytics />
+      </body>
     </html>
   );
 }

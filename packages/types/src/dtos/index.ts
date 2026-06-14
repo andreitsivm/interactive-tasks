@@ -5,3 +5,9 @@ export type {
   AgeGroup,
   IFillTheGapRequest,
 } from "./fill-the-gap";
+export type {
+  IVocabularyRequest,
+  IVocabularyWord,
+  IVocabularyResponse,
+} from "./vocabulary";
+export type { IAssociationsRequest } from "./associations";
