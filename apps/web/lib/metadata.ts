@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
-import type { Locale } from "@/i18n/routing";
+import { routing, type Locale } from "@/i18n/routing";
+
+export const localeToHreflang: Record<Locale, string> = {
+  en: "en",
+  ua: "uk",
+};
 
 export function buildMetadata({
   locale = "en",
@@ -23,7 +28,12 @@ export function buildMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: {
       canonical: url,
-      languages: { en: `/en${path}`, uk: `/ua${path}` },
+      languages: {
+        ...Object.fromEntries(
+          routing.locales.map((l) => [localeToHreflang[l], `/${l}${path}`]),
+        ),
+        "x-default": `/${routing.defaultLocale}${path}`,
+      },
     },
     openGraph: {
       title: t,
