@@ -1,5 +1,5 @@
 import { streamText, Output } from "ai";
-import { createOpenAI } from "@ai-sdk/openai";
+import { openai } from "@/lib/ai-sdk";
 import { auth } from "@/auth";
 import {
   VocabularyRequestSchema,
@@ -22,16 +22,8 @@ export async function POST(req: Request) {
     });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "OPENAI_API_KEY not configured" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
-  }
-
   const result = streamText({
-    model: createOpenAI({ apiKey })("gpt-5-nano"),
+    model: openai("gpt-5-nano"),
     output: Output.object({ schema: VocabularyResponseSchema }),
     prompt: buildVocabularyPrompt(parsed.data),
   });
