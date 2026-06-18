@@ -47,11 +47,19 @@ export function AssociationsContainer() {
         signal: controller.signal,
       });
 
+      const json: unknown = await res.json();
+
       if (!res.ok) {
-        throw new Error(`Generation failed (${res.status})`);
+        const errorMessage =
+          typeof json === "object" &&
+          json !== null &&
+          "error" in json &&
+          typeof json.error === "string"
+            ? json.error
+            : `Generation failed (${res.status})`;
+        throw new Error(errorMessage);
       }
 
-      const json: unknown = await res.json();
       const parsed = AssociationsResponseSchema.safeParse(json);
       if (!parsed.success) {
         throw new Error("Unexpected response from AI");
